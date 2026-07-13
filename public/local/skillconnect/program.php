@@ -169,6 +169,7 @@ if ($isajax) {
 $PAGE->set_url(new moodle_url('/local/skillconnect/program.php', ['program' => $programkey]));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('standard');
+$PAGE->add_body_class('sc-compact-page');
 $PAGE->set_title(get_string('programs', 'local_skillconnect'));
 $PAGE->set_heading(get_string('programs', 'local_skillconnect'));
 

@@ -447,6 +447,12 @@ body.skillconnect-theme .sr-only {
 .sc-page-btn[disabled] { opacity: .45; cursor: not-allowed; }
 .sc-page-ellipsis { padding: 0 4px; color: $sc-muted; }
 
+// Compact internal pages: hide the Moodle page heading and side blocks
+// (Navigation / Administration) so the custom content fills the width.
+body.sc-compact-page .sc-page-header { display: none; }
+body.sc-compact-page .sc-content-layout.has-blocks { grid-template-columns: minmax(0, 1fr); }
+body.sc-compact-page .sc-side-blocks { display: none; }
+
 // Responsive.
 @media (max-width: 1050px) {
     .sc-navigation { gap: 22px; }
