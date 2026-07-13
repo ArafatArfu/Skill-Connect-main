@@ -1,0 +1,84 @@
+<div class="sc-program-page" data-ajaxurl="{{ajaxurl}}" data-program="{{programkey}}">
+    <header class="sc-program-header">
+        <span class="sc-program-eyebrow">Programs</span>
+        <h1 class="sc-program-title">{{heading}}</h1>
+        <p class="sc-program-desc">{{description}}</p>
+        <div class="sc-program-meta">
+            <span class="sc-program-badge">
+                <span class="sc-program-dot" aria-hidden="true"></span>{{programlabel}}
+            </span>
+            <span class="sc-program-count"><strong>{{total}}</strong> participants enrolled</span>
+        </div>
+    </header>
+
+    <section class="sc-program-panel">
+        <div class="sc-program-toolbar">
+            <h2 class="sc-panel-title">Participants</h2>
+            <p class="sc-panel-sub">Program enrolment records</p>
+        </div>
+
+        <div class="sc-program-tablewrap" id="sc-program-table">
+            {{{table}}}
+        </div>
+
+        <nav class="sc-pagination" id="sc-program-pagination" aria-label="Program records pagination">
+            {{{pagination}}}
+        </nav>
+    </section>
+</div>
+
+<script>
+(function () {
+    var wrap = document.querySelector('.sc-program-page');
+    if (!wrap) {
+        return;
+    }
+    var tableBox = wrap.querySelector('#sc-program-table');
+    var pageBox = wrap.querySelector('#sc-program-pagination');
+    var url = wrap.getAttribute('data-ajaxurl');
+    var program = wrap.getAttribute('data-program');
+    var loading = false;
+
+    function bindPagination() {
+        pageBox.querySelectorAll('.sc-page-btn:not([disabled])').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var p = parseInt(btn.getAttribute('data-page'), 10);
+                if (!isNaN(p)) {
+                    load(p);
+                }
+            });
+        });
+    }
+
+    function load(page) {
+        if (loading) {
+            return;
+        }
+        loading = true;
+        tableBox.classList.add('is-loading');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + '?ajax=1&program=' + encodeURIComponent(program) + '&page=' + page, true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            if (xhr.status === 200 && xhr.response) {
+                var d = xhr.response;
+                tableBox.innerHTML = d.table;
+                pageBox.innerHTML = d.pagination;
+                bindPagination();
+                var top = wrap.getBoundingClientRect().top + window.scrollY - 90;
+                window.scrollTo({ top: top, behavior: 'smooth' });
+            }
+            loading = false;
+            tableBox.classList.remove('is-loading');
+        };
+        xhr.onerror = function () {
+            loading = false;
+            tableBox.classList.remove('is-loading');
+        };
+        xhr.send();
+    }
+
+    bindPagination();
+})();
+</script>

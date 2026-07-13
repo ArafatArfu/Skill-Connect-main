@@ -110,9 +110,16 @@ function theme_skillconnect_common_context(core_renderer $output, moodle_page $p
 
     $homeurl = rtrim($CFG->wwwroot, '/') . '/';
     $programsurl = theme_skillconnect_resolve_url(theme_skillconnect_setting('programsurl', '/#featured-programs'));
+    $programpageurl = theme_skillconnect_resolve_url(theme_skillconnect_setting('programpageurl', '/local/skillconnect/program.php'));
     $coursesurl = theme_skillconnect_resolve_url(theme_skillconnect_setting('coursesurl', '/course/index.php'));
     $volunteerurl = theme_skillconnect_resolve_url(theme_skillconnect_setting('volunteerurl', '/login/signup.php'));
     $contacturl = theme_skillconnect_resolve_url(theme_skillconnect_setting('contacturl', '/#contact'));
+
+    $programlinks = [
+        ['key' => 'clc', 'label' => 'CLC (Computer Literacy Program)', 'url' => $programpageurl . '?program=clc'],
+        ['key' => 'road_safety', 'label' => 'Road Safety', 'url' => $programpageurl . '?program=road_safety'],
+        ['key' => 'volunteer', 'label' => 'Volunteer', 'url' => $programpageurl . '?program=volunteer'],
+    ];
 
     return [
         'sitename' => theme_skillconnect_setting('brandname', format_string($SITE->shortname)),
@@ -120,6 +127,8 @@ function theme_skillconnect_common_context(core_renderer $output, moodle_page $p
         'logo' => theme_skillconnect_image($theme, $output, 'logo', 'logo', 'logo'),
         'homeurl' => $homeurl,
         'programsurl' => $programsurl,
+        'programpageurl' => $programpageurl,
+        'programlinks' => $programlinks,
         'coursesurl' => $coursesurl,
         'volunteerurl' => $volunteerurl,
         'contacturl' => $contacturl,
@@ -131,6 +140,7 @@ function theme_skillconnect_common_context(core_renderer $output, moodle_page $p
         'usermenu' => $loggedin ? $output->user_menu() : '',
         'isadmin' => $loggedin && is_siteadmin(),
         'homeactive' => $isfrontpage,
+        'programsactive' => str_contains($currentpath, '/local/skillconnect/program.php'),
         'coursesactive' => str_contains($currentpath, '/course/'),
         'currentyear' => date('Y'),
         'footerdescription' => theme_skillconnect_setting(

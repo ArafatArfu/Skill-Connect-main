@@ -43,6 +43,7 @@ $string['volunteerregisterbutton'] = 'Volunteer registration button text';
 $string['linksettings'] = 'Navigation and program links';
 $string['linksettingsdesc'] = 'Use a Moodle-relative path such as /course/index.php, a section link such as /#contact, or a complete URL.';
 $string['programsurl'] = 'Programs navigation URL';
+$string['programpageurl'] = 'Program page URL';
 $string['coursesurl'] = 'Courses navigation URL';
 $string['volunteerurl'] = 'Volunteer navigation URL';
 $string['contacturl'] = 'Contact navigation URL';

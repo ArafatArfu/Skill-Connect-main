@@ -18,7 +18,14 @@
 
         <nav class="sc-navigation" aria-label="Primary navigation">
             <a class="sc-nav-link {{#homeactive}}is-active{{/homeactive}}" href="{{homeurl}}">Home</a>
-            <a class="sc-nav-link" href="{{programsurl}}">Programs</a>
+            <div class="sc-nav-item sc-has-dropdown">
+                <a class="sc-nav-link {{#programsactive}}is-active{{/programsactive}}" href="{{programpageurl}}" aria-haspopup="true" aria-expanded="false">Programs <span class="sc-caret" aria-hidden="true">&#9662;</span></a>
+                <div class="sc-dropdown" role="menu">
+                    {{#programlinks}}
+                        <a class="sc-dropdown-link" role="menuitem" href="{{url}}">{{label}}</a>
+                    {{/programlinks}}
+                </div>
+            </div>
             <a class="sc-nav-link {{#coursesactive}}is-active{{/coursesactive}}" href="{{coursesurl}}">Courses</a>
             <a class="sc-nav-link" href="{{volunteerurl}}">Volunteer</a>
             <a class="sc-nav-link" href="{{contacturl}}">Contact</a>

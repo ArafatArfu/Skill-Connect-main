@@ -53,5 +53,29 @@
         <INDEX NAME="emailuniq" UNIQUE="true" FIELDS="email"/>
       </INDEXES>
     </TABLE>
+
+    <TABLE NAME="local_sc_program_participants" COMMENT="Beneficiaries/participants per program">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="program" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false" COMMENT="clc, road_safety or volunteer"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="200" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="father_name" TYPE="char" LENGTH="200" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="mother_name" TYPE="char" LENGTH="200" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="district" TYPE="char" LENGTH="100" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="division" TYPE="char" LENGTH="100" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="upazila" TYPE="char" LENGTH="100" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="mobile" TYPE="char" LENGTH="30" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="254" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="gender" TYPE="char" LENGTH="20" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="school" TYPE="char" LENGTH="200" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="programidx" UNIQUE="false" FIELDS="program"/>
+      </INDEXES>
+    </TABLE>
   </TABLES>
 </XMLDB>

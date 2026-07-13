@@ -71,6 +71,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading('theme_skillconnect/linkheading', get_string('linksettings', 'theme_skillconnect'), get_string('linksettingsdesc', 'theme_skillconnect')));
     $linksettings = [
         'programsurl' => ['programsurl', '/#featured-programs'],
+        'programpageurl' => ['programpageurl', '/local/skillconnect/program.php'],
         'coursesurl' => ['coursesurl', '/course/index.php'],
         'volunteerurl' => ['volunteerurl', '/login/signup.php'],
         'contacturl' => ['contacturl', '/#contact'],
