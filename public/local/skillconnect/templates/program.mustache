@@ -2,16 +2,96 @@
     <header class="sc-program-header">
         <span class="sc-program-eyebrow">Programs</span>
         <h1 class="sc-program-title">{{heading}}</h1>
-        <p class="sc-program-desc">{{description}}</p>
+        <p class="sc-program-desc">{{{description}}}</p>
         <div class="sc-program-meta">
             <span class="sc-program-badge">
                 <span class="sc-program-dot" aria-hidden="true"></span>{{programlabel}}
             </span>
-            <span class="sc-program-count"><strong>{{total}}</strong> participants enrolled</span>
+            <span class="sc-program-count"><strong id="sc-program-total">{{total}}</strong> participants enrolled</span>
         </div>
+
+        {{#hasstats}}
+        <div class="sc-program-stats">
+            {{#stats}}
+            <div class="sc-stat-box">
+                <span class="sc-stat-value">{{value}}</span>
+                <span class="sc-stat-label">{{label}}</span>
+            </div>
+            {{/stats}}
+        </div>
+        {{/hasstats}}
     </header>
 
     <section class="sc-program-panel">
+        <form class="sc-program-filters" id="sc-program-filters" method="get" autocomplete="off">
+            <div class="sc-filter-search">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"/></svg>
+                <input type="search" name="q" value="{{q}}" placeholder="Search by name, school, district, mobile, email…" aria-label="Search records">
+            </div>
+
+            <div class="sc-filter-grid">
+                <div class="sc-filter-field">
+                    <label for="f-division">Division</label>
+                    <select id="f-division" name="division">
+                        <option value="">All divisions</option>
+                        {{#divisions}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/divisions}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-district">District</label>
+                    <select id="f-district" name="district">
+                        <option value="">All districts</option>
+                        {{#districts}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/districts}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-upazila">Upazila</label>
+                    <select id="f-upazila" name="upazila">
+                        <option value="">All upazilas</option>
+                        {{#upazilas}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/upazilas}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-school">School</label>
+                    <select id="f-school" name="school">
+                        <option value="">All schools</option>
+                        {{#schools}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/schools}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-gender">Gender</label>
+                    <select id="f-gender" name="gender">
+                        <option value="">All genders</option>
+                        {{#genders}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/genders}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-year">Year</label>
+                    <select id="f-year" name="year">
+                        <option value="">All years</option>
+                        {{#years}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/years}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-sort">Sort by</label>
+                    <select id="f-sort" name="sort">
+                        {{#sorts}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/sorts}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-dir">Order</label>
+                    <select id="f-dir" name="dir">
+                        <option value="ASC" {{#dirasc}}selected{{/dirasc}}>Ascending</option>
+                        <option value="DESC" {{#dirdesc}}selected{{/dirdesc}}>Descending</option>
+                    </select>
+                </div>
+                <div class="sc-filter-actions">
+                    <button type="submit" class="sc-btn sc-btn-primary">Search</button>
+                    <button type="button" class="sc-btn sc-btn-ghost" data-reset>Reset</button>
+                </div>
+            </div>
+        </form>
+
         <div class="sc-program-toolbar">
             <h2 class="sc-panel-title">Participants</h2>
             <p class="sc-panel-sub">Program enrolment records</p>
@@ -33,21 +113,27 @@
     if (!wrap) {
         return;
     }
+    var form = wrap.querySelector('#sc-program-filters');
     var tableBox = wrap.querySelector('#sc-program-table');
     var pageBox = wrap.querySelector('#sc-program-pagination');
+    var totalEl = wrap.querySelector('#sc-program-total');
     var url = wrap.getAttribute('data-ajaxurl');
     var program = wrap.getAttribute('data-program');
     var loading = false;
+    var typingTimer;
 
-    function bindPagination() {
-        pageBox.querySelectorAll('.sc-page-btn:not([disabled])').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var p = parseInt(btn.getAttribute('data-page'), 10);
-                if (!isNaN(p)) {
-                    load(p);
-                }
-            });
+    function buildQuery(page) {
+        var params = [];
+        var fd = new FormData(form);
+        fd.forEach(function (value, key) {
+            if (value !== '') {
+                params.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+            }
         });
+        params.push('ajax=1');
+        params.push('program=' + encodeURIComponent(program));
+        params.push('page=' + page);
+        return params.join('&');
     }
 
     function load(page) {
@@ -58,13 +144,16 @@
         tableBox.classList.add('is-loading');
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', url + '?ajax=1&program=' + encodeURIComponent(program) + '&page=' + page, true);
+        xhr.open('GET', url + '?' + buildQuery(page), true);
         xhr.responseType = 'json';
         xhr.onload = function () {
             if (xhr.status === 200 && xhr.response) {
                 var d = xhr.response;
                 tableBox.innerHTML = d.table;
                 pageBox.innerHTML = d.pagination;
+                if (totalEl) {
+                    totalEl.textContent = d.total;
+                }
                 bindPagination();
                 var top = wrap.getBoundingClientRect().top + window.scrollY - 90;
                 window.scrollTo({ top: top, behavior: 'smooth' });
@@ -77,6 +166,46 @@
             tableBox.classList.remove('is-loading');
         };
         xhr.send();
+    }
+
+    function bindPagination() {
+        pageBox.querySelectorAll('.sc-page-btn:not([disabled])').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var p = parseInt(btn.getAttribute('data-page'), 10);
+                if (!isNaN(p)) {
+                    load(p);
+                }
+            });
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        load(1);
+    });
+
+    form.querySelectorAll('select').forEach(function (sel) {
+        sel.addEventListener('change', function () {
+            load(1);
+        });
+    });
+
+    var search = form.querySelector('input[name="q"]');
+    if (search) {
+        search.addEventListener('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(function () {
+                load(1);
+            }, 350);
+        });
+    }
+
+    var reset = form.querySelector('[data-reset]');
+    if (reset) {
+        reset.addEventListener('click', function () {
+            form.reset();
+            load(1);
+        });
     }
 
     bindPagination();

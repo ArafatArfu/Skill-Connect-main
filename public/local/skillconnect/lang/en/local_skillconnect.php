@@ -9,6 +9,14 @@ $string['volunteer'] = 'Volunteer';
 $string['contact'] = 'Contact';
 $string['newsletter'] = 'Newsletter';
 
+$string['programcontentsettings'] = 'Program page content';
+$string['programcontentsettingsdesc'] = 'Manage the descriptions and headline statistics shown on the CLC, Road Safety and Volunteer program pages. Changes apply immediately.';
+$string['clcdescription'] = 'CLC description';
+$string['clccenters'] = 'Total Computer Literacy Centers (CLCs)';
+$string['clcsmartclassrooms'] = 'Total Smart Classrooms (SCRs)';
+$string['roadsafetydescription'] = 'Road Safety description';
+$string['volunteerdescription'] = 'Volunteer description';
+
 $string['firstname'] = 'First name';
 $string['lastname'] = 'Last name';
 $string['email'] = 'Email address';

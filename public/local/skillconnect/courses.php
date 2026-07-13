@@ -3,7 +3,7 @@ require_once(__DIR__ . '/../../config.php');
 
 $PAGE->set_url(new moodle_url('/local/skillconnect/courses.php'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_pagelayout('standard');
+$PAGE->set_pagelayout('base');
 $PAGE->add_body_class('sc-compact-page');
 $PAGE->set_title(get_string('courses', 'local_skillconnect'));
 $PAGE->set_heading(get_string('courses', 'local_skillconnect'));
