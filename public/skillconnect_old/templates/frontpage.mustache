@@ -1,0 +1,125 @@
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}">
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+<div id="page-wrapper">
+    {{> theme_skillconnect/header }}
+
+    <main id="page" class="sc-home">
+        <section class="sc-hero">
+            <div class="sc-container sc-hero-grid">
+                <div class="sc-hero-copy">
+                    <p class="sc-eyebrow">SKILLS • EDUCATION • VOLUNTEERING</p>
+                    <h1>
+                        Empowering Students Through
+                        <span>Skills &amp; Volunteering</span>
+                    </h1>
+                    <p class="sc-hero-text">
+                        We create opportunities for students and communities
+                        to learn, grow, and build a better tomorrow together.
+                    </p>
+                    <div class="sc-hero-actions">
+                        <a class="sc-primary-btn" href="{{programsurl}}">
+                            Explore Programs
+                        </a>
+                        <a class="sc-outline-btn" href="{{volunteerurl}}">
+                            ♥ Become a Volunteer
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sc-hero-visual">
+                    <div class="sc-hero-shape"></div>
+                    <img src="{{heroimage}}" alt="Students learning together">
+                </div>
+            </div>
+        </section>
+
+        <section class="sc-stats">
+            <div class="sc-container sc-stats-grid">
+                <article class="sc-stat-card">
+                    <span class="sc-stat-icon">🎓</span>
+                    <div><strong>18,560+</strong><span>Students Trained</span></div>
+                </article>
+                <article class="sc-stat-card">
+                    <span class="sc-stat-icon">👥</span>
+                    <div><strong>2,450+</strong><span>Active Volunteers</span></div>
+                </article>
+                <article class="sc-stat-card">
+                    <span class="sc-stat-icon">📜</span>
+                    <div><strong>12,750+</strong><span>Certificates Issued</span></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="sc-section">
+            <div class="sc-container">
+                <div class="sc-section-title">
+                    <h2>Featured Programs</h2>
+                    <span></span>
+                </div>
+
+                <div class="sc-program-grid">
+                    <article class="sc-program-card">
+                        <div class="sc-program-icon blue">🖥</div>
+                        <div>
+                            <h3>Computer Literacy</h3>
+                            <p>Build essential computer skills for study, work, and life.</p>
+                            <a href="{{programsurl}}">Learn More →</a>
+                        </div>
+                    </article>
+
+                    <article class="sc-program-card">
+                        <div class="sc-program-icon green">💬</div>
+                        <div>
+                            <h3>English Skills</h3>
+                            <p>Improve communication and open up new opportunities.</p>
+                            <a href="{{programsurl}}">Learn More →</a>
+                        </div>
+                    </article>
+
+                    <article class="sc-program-card">
+                        <div class="sc-program-icon yellow">⚠</div>
+                        <div>
+                            <h3>Road Safety Awareness</h3>
+                            <p>Promoting safe and responsible behaviour for safer communities.</p>
+                            <a href="{{programsurl}}">Learn More →</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="sc-volunteer-section">
+            <div class="sc-container">
+                <div class="sc-volunteer-banner">
+                    <img src="{{volunteerimage}}" alt="SkillConnect volunteers">
+                    <div>
+                        <h2>Make a Difference. Be a Volunteer!</h2>
+                        <p>Share your time and skills to empower students and create lasting change.</p>
+                        <a class="sc-primary-btn" href="{{volunteerurl}}">
+                            ♥ Register as Volunteer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="sc-hidden-moodle-content">
+            {{{ maincontent }}}
+        </div>
+    </main>
+
+    {{> theme_skillconnect/footer }}
+</div>
+
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>

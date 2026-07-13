@@ -1,0 +1,39 @@
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}">
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+<div id="page-wrapper">
+    {{> theme_skillconnect/header }}
+
+    <main id="page" class="sc-auth-page">
+        <div class="sc-auth-glow"></div>
+        <div id="page-content" class="sc-container sc-auth-grid">
+            <section class="sc-auth-message">
+                <p class="sc-eyebrow">WELCOME TO SKILLCONNECT</p>
+                <h1>Learn new skills. Build your future.</h1>
+                <p>
+                    Sign in to access your courses, learning activities,
+                    certificates and volunteer opportunities.
+                </p>
+                <a href="{{homeurl}}" class="sc-outline-btn">← Back to Home</a>
+            </section>
+
+            <section id="region-main" class="sc-auth-card">
+                {{{ maincontent }}}
+            </section>
+        </div>
+    </main>
+
+    {{> theme_skillconnect/footer }}
+</div>
+
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>

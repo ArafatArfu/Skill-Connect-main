@@ -1,0 +1,51 @@
+<header class="sc-header">
+    <div class="sc-container sc-header-inner">
+        <a class="sc-brand" href="{{homeurl}}" aria-label="SkillConnect home">
+            <img src="{{logoimage}}" alt="" class="sc-brand-logo">
+            <span class="sc-brand-text">
+                <strong>SkillConnect</strong>
+                <small>Learn • Empower • Grow</small>
+            </span>
+        </a>
+
+        <nav class="sc-nav" aria-label="Main navigation">
+            <a href="{{homeurl}}">Home</a>
+            <a href="{{programsurl}}">Programs</a>
+            <a href="{{coursesurl}}">Courses</a>
+            <a href="{{volunteerurl}}">Volunteer</a>
+            <a href="{{contacturl}}">Contact</a>
+        </nav>
+
+        <div class="sc-header-actions">
+            {{#notloggedin}}
+                <a class="sc-login-btn" href="{{loginurl}}">
+                    <span aria-hidden="true">●</span> Login
+                </a>
+            {{/notloggedin}}
+
+            {{#isloggedin}}
+                <a class="sc-dashboard-btn" href="{{dashboardurl}}">Dashboard</a>
+                <a class="sc-logout-link" href="{{logouturl}}">Logout</a>
+            {{/isloggedin}}
+        </div>
+
+        <details class="sc-mobile-menu">
+            <summary aria-label="Open menu">☰</summary>
+            <div class="sc-mobile-panel">
+                <a href="{{homeurl}}">Home</a>
+                <a href="{{programsurl}}">Programs</a>
+                <a href="{{coursesurl}}">Courses</a>
+                <a href="{{volunteerurl}}">Volunteer</a>
+                <a href="{{contacturl}}">Contact</a>
+                {{#notloggedin}}
+                    <a href="{{loginurl}}">Login</a>
+                    <a href="{{signupurl}}">Register</a>
+                {{/notloggedin}}
+                {{#isloggedin}}
+                    <a href="{{dashboardurl}}">Dashboard</a>
+                    <a href="{{logouturl}}">Logout</a>
+                {{/isloggedin}}
+            </div>
+        </details>
+    </div>
+</header>

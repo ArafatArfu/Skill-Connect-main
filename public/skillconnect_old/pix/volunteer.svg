@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 260">
+  <defs>
+    <linearGradient id="p" x1="0" x2="1">
+      <stop stop-color="#ff4a8c"/>
+      <stop offset="1" stop-color="#e91663"/>
+    </linearGradient>
+    <linearGradient id="s" x1="0" x2="1">
+      <stop stop-color="#f9cba9"/>
+      <stop offset="1" stop-color="#e9a679"/>
+    </linearGradient>
+  </defs>
+  <path d="M35 235c5-100 34-147 85-147s80 47 85 147z" fill="url(#p)"/>
+  <circle cx="120" cy="68" r="38" fill="url(#s)"/>
+  <path d="M84 62c14-44 68-42 75 4-27-14-49-14-75-4z" fill="#2b2428"/>
+  <path d="M120 88V28M120 28l-14 17M120 28l14 17" stroke="#e9a679" stroke-width="10" stroke-linecap="round"/>
+  <text x="76" y="158" font-size="17" font-family="Arial" fill="#fff" font-weight="700">VOLUNTEER</text>
+
+  <path d="M170 235c5-100 34-147 85-147s80 47 85 147z" fill="url(#p)"/>
+  <circle cx="255" cy="68" r="38" fill="url(#s)"/>
+  <path d="M219 60c10-47 70-47 76 2-24-13-50-13-76-2z" fill="#2b2428"/>
+  <path d="M255 88V25M255 25l-14 17M255 25l14 17" stroke="#e9a679" stroke-width="10" stroke-linecap="round"/>
+  <text x="211" y="158" font-size="17" font-family="Arial" fill="#fff" font-weight="700">VOLUNTEER</text>
+
+  <path d="M305 235c5-100 34-147 85-147s80 47 85 147z" fill="url(#p)"/>
+  <circle cx="390" cy="68" r="38" fill="url(#s)"/>
+  <path d="M354 62c13-44 65-43 74 2-22-12-49-13-74-2z" fill="#2b2428"/>
+  <path d="M390 88V30M390 30l-14 17M390 30l14 17" stroke="#e9a679" stroke-width="10" stroke-linecap="round"/>
+  <text x="346" y="158" font-size="17" font-family="Arial" fill="#fff" font-weight="700">VOLUNTEER</text>
+
+  <path d="M440 235c5-100 34-147 85-147s80 47 85 147z" fill="url(#p)"/>
+  <circle cx="525" cy="68" r="38" fill="url(#s)"/>
+  <path d="M489 61c11-46 67-46 75 2-23-13-49-13-75-2z" fill="#2b2428"/>
+  <path d="M525 88V26M525 26l-14 17M525 26l14 17" stroke="#e9a679" stroke-width="10" stroke-linecap="round"/>
+  <text x="481" y="158" font-size="17" font-family="Arial" fill="#fff" font-weight="700">VOLUNTEER</text>
+</svg>

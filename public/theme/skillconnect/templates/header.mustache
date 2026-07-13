@@ -1,0 +1,45 @@
+{{!
+    Shared responsive SkillConnect header.
+}}
+<header class="sc-header" role="banner">
+    <div class="sc-container sc-header-inner">
+        <a class="sc-brand" href="{{homeurl}}" aria-label="{{sitename}} home">
+            <img class="sc-brand-logo" src="{{logo}}" alt="">
+            <span class="sc-brand-copy">
+                <strong>{{sitename}}</strong>
+                <small>{{tagline}}</small>
+            </span>
+        </a>
+
+        <input class="sc-nav-checkbox" type="checkbox" id="sc-nav-checkbox" aria-hidden="true">
+        <label class="sc-nav-toggle" for="sc-nav-checkbox" aria-label="Open navigation">
+            <span></span><span></span><span></span>
+        </label>
+
+        <nav class="sc-navigation" aria-label="Primary navigation">
+            <a class="sc-nav-link {{#homeactive}}is-active{{/homeactive}}" href="{{homeurl}}">Home</a>
+            <a class="sc-nav-link" href="{{programsurl}}">Programs</a>
+            <a class="sc-nav-link {{#coursesactive}}is-active{{/coursesactive}}" href="{{coursesurl}}">Courses</a>
+            <a class="sc-nav-link" href="{{volunteerurl}}">Volunteer</a>
+            <a class="sc-nav-link" href="{{contacturl}}">Contact</a>
+            {{#isloggedin}}
+                <a class="sc-nav-link sc-mobile-only" href="{{dashboardurl}}">Dashboard</a>
+                {{#isadmin}}<a class="sc-nav-link sc-mobile-only" href="{{adminurl}}">Site administration</a>{{/isadmin}}
+            {{/isloggedin}}
+        </nav>
+
+        <div class="sc-header-actions">
+            {{#showlogin}}
+                <a class="sc-login-button" href="{{loginurl}}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0v1h14v-1Z"/></svg>
+                    <span>Login</span>
+                </a>
+            {{/showlogin}}
+            {{#isloggedin}}
+                <a class="sc-dashboard-link" href="{{dashboardurl}}">Dashboard</a>
+                {{#isadmin}}<a class="sc-admin-link" href="{{adminurl}}" title="Site administration">Admin</a>{{/isadmin}}
+                <div class="sc-user-menu">{{{usermenu}}}</div>
+            {{/isloggedin}}
+        </div>
+    </div>
+</header>

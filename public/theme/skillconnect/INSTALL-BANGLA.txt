@@ -1,0 +1,16 @@
+SKILLCONNECT THEME INSTALLATION
+
+1) ZIP file extract করুন।
+2) ভিতরের skillconnect folder টি copy করুন।
+3) এই path-এ paste করুন:
+   C:\xampp\htdocs\moodle\public\theme\skillconnect
+4) নিশ্চিত করুন এই file আছে:
+   C:\xampp\htdocs\moodle\public\theme\skillconnect\version.php
+5) XAMPP থেকে Apache এবং MariaDB চালু করুন।
+6) Moodle admin account দিয়ে login করুন এবং upgrade complete করুন।
+7) Site administration > Appearance > Themes > Theme selector থেকে SkillConnect select করুন।
+8) Site administration > Development > Purge caches থেকে সব cache purge করুন।
+9) লেখা/ছবি/রং বদলাতে যান:
+   Site administration > Appearance > Themes > SkillConnect
+
+গুরুত্বপূর্ণ: Moodle core বা Boost theme edit করবেন না। সব edit theme\skillconnect folder-এর ভেতরে করবেন।

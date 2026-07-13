@@ -1,0 +1,15 @@
+<div class="sc-page-hero">
+    <h1>Our Programs</h1>
+    <p>Practical learning and awareness opportunities for students and communities.</p>
+</div>
+
+<div class="sc-listing-grid">
+    {{#programs}}
+        <article class="sc-listing-card">
+            <div class="sc-card-icon">{{icon}}</div>
+            <h2>{{title}}</h2>
+            <p>{{description}}</p>
+            <a href="{{coursesurl}}">Explore courses →</a>
+        </article>
+    {{/programs}}
+</div>

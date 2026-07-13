@@ -1,0 +1,15 @@
+{{> theme_skillconnect/header }}
+<main id="page-content" class="sc-page-shell">
+    <div class="sc-container">
+        {{#shownavbar}}<nav class="sc-breadcrumb" aria-label="Breadcrumb">{{{navbar}}}</nav>{{/shownavbar}}
+        <div class="sc-edit-switch">{{{editbutton}}}</div>
+        <div class="sc-page-header">{{{fullheader}}}</div>
+        {{{coursecontentheader}}}
+        <div class="sc-content-layout {{#hasblocks}}has-blocks{{/hasblocks}}">
+            <section class="sc-main-content" role="main">{{{maincontent}}}</section>
+            {{#hasblocks}}<aside class="sc-side-blocks" aria-label="Page blocks">{{{sidepreblocks}}}</aside>{{/hasblocks}}
+        </div>
+        {{{coursecontentfooter}}}
+    </div>
+</main>
+{{#showfooter}}{{> theme_skillconnect/footer }}{{/showfooter}}

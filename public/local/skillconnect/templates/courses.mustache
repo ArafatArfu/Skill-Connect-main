@@ -1,0 +1,23 @@
+<div class="sc-page-hero">
+    <h1>Available Courses</h1>
+    <p>Choose a course and start learning through the SkillConnect platform.</p>
+</div>
+
+{{#hascourses}}
+    <div class="sc-listing-grid">
+        {{#courses}}
+            <article class="sc-listing-card">
+                <div class="sc-card-icon">📘</div>
+                <h2>{{title}}</h2>
+                <p>{{summary}}</p>
+                <a href="{{url}}">Open course →</a>
+            </article>
+        {{/courses}}
+    </div>
+{{/hascourses}}
+
+{{^hascourses}}
+    <div class="alert alert-info">
+        No public courses are available yet. Create a Moodle course and make it visible.
+    </div>
+{{/hascourses}}

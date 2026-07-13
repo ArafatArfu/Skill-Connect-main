@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520">
+  <defs>
+    <linearGradient id="pink" x1="0" x2="1">
+      <stop stop-color="#ff4a8c"/>
+      <stop offset="1" stop-color="#e91663"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" x2="1">
+      <stop stop-color="#f8c9a7"/>
+      <stop offset="1" stop-color="#e9a979"/>
+    </linearGradient>
+  </defs>
+  <rect x="80" y="48" width="620" height="410" rx="50" fill="#fff"/>
+  <rect x="450" y="82" width="170" height="110" rx="16" fill="#fff4f8" stroke="#f5d9e5"/>
+  <circle cx="486" cy="116" r="10" fill="#7957d5"/>
+  <circle cx="486" cy="145" r="10" fill="#20b77a"/>
+  <circle cx="486" cy="174" r="10" fill="#f4ae22"/>
+  <text x="510" y="122" font-size="18" font-family="Arial" fill="#e91663" font-weight="700">LEARN</text>
+  <text x="510" y="151" font-size="18" font-family="Arial" fill="#e91663" font-weight="700">EMPOWER</text>
+  <text x="510" y="180" font-size="18" font-family="Arial" fill="#e91663" font-weight="700">GROW</text>
+
+  <!-- Teacher -->
+  <circle cx="190" cy="215" r="42" fill="url(#skin)"/>
+  <path d="M148 205c8-51 77-62 94-8-24-18-56-15-94 8z" fill="#29242b"/>
+  <path d="M122 374c3-93 27-133 70-133 44 0 67 40 70 133z" fill="url(#pink)"/>
+  <path d="M186 255c-26 37-43 80-44 124" fill="none" stroke="#f8c9a7" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Student 1 -->
+  <circle cx="350" cy="260" r="38" fill="url(#skin)"/>
+  <path d="M315 252c12-45 67-51 77-5-22-13-45-12-77 5z" fill="#242126"/>
+  <path d="M294 406c6-89 25-118 58-118 36 0 56 32 61 118z" fill="#e83c6f"/>
+
+  <!-- Student 2 -->
+  <circle cx="480" cy="275" r="36" fill="url(#skin)"/>
+  <path d="M444 267c9-44 65-54 76-8-21-17-47-16-76 8z" fill="#1f1d22"/>
+  <path d="M426 409c5-86 24-112 56-112 35 0 53 31 58 112z" fill="#275b83"/>
+
+  <!-- Volunteer -->
+  <circle cx="610" cy="205" r="39" fill="url(#skin)"/>
+  <path d="M572 198c12-48 68-54 77-7-23-15-48-13-77 7z" fill="#242126"/>
+  <path d="M554 374c5-89 25-124 58-124 35 0 57 35 61 124z" fill="#fff" stroke="#ece8eb"/>
+  <text x="566" y="330" font-size="15" font-family="Arial" fill="#e91663" font-weight="700">VOLUNTEER</text>
+
+  <!-- Laptop -->
+  <path d="M255 352h300l-24 96H280z" fill="#eef1f4" stroke="#c9ced4" stroke-width="4"/>
+  <path d="M237 448h330l-18 20H255z" fill="#cbd1d8"/>
+  <circle cx="405" cy="399" r="8" fill="#e91663"/>
+</svg>

@@ -1,0 +1,32 @@
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}">
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+<div id="page-wrapper">
+    {{> theme_skillconnect/header }}
+
+    <main id="page" class="sc-inner-page">
+        <div id="page-content" class="sc-container">
+            <div id="region-main-box">
+                <section id="region-main" class="sc-content-card">
+                    {{{ output.course_content_header }}}
+                    {{{ maincontent }}}
+                    {{{ output.course_content_footer }}}
+                </section>
+            </div>
+        </div>
+    </main>
+
+    {{> theme_skillconnect/footer }}
+</div>
+
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>
