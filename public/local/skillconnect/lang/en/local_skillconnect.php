@@ -39,6 +39,55 @@ $string['contactsuccess'] = 'Your message has been submitted successfully.';
 $string['newslettersuccess'] = 'Thank you for subscribing.';
 $string['newsletterexists'] = 'This email address is already subscribed.';
 $string['invalidemail'] = 'Please enter a valid email address.';
+$string['invalidmobile'] = 'Please enter a valid mobile number.';
+
+$string['management'] = 'management';
+$string['programmanagement'] = 'Program management';
+$string['managedashboard'] = 'Program records dashboard';
+$string['opendashboard'] = 'Open management dashboard';
+$string['viewlive'] = 'View live page';
+$string['backtosite'] = 'Back to site';
+
+$string['name'] = 'Name';
+$string['fathername'] = "Father's name";
+$string['mothername'] = "Mother's name";
+$string['district'] = 'District';
+$string['division'] = 'Division';
+$string['upazila'] = 'Upazila';
+$string['gender'] = 'Gender';
+$string['school'] = 'School';
+$string['schoolplaceholder'] = 'Search or type a school name';
+$string['month'] = 'Month';
+$string['year'] = 'Year';
+$string['selectone'] = 'Select…';
+$string['male'] = 'Male';
+$string['female'] = 'Female';
+$string['other'] = 'Other';
+$string['saverecord'] = 'Save record';
+
+$string['addrecord'] = 'Add record';
+$string['editrecord'] = 'Edit record';
+$string['deleterecord'] = 'Delete record';
+$string['addrecordsub'] = 'Create a new record for the %s program.';
+$string['editrecordsub'] = 'Update the selected %s record.';
+$string['records'] = 'records';
+$string['actions'] = 'Actions';
+$string['norecords'] = 'No records found. Use “Add record” to create one.';
+$string['recordcreated'] = 'The record has been created.';
+$string['recordupdated'] = 'The record has been updated.';
+$string['recorddeleted'] = 'The record has been deleted.';
+$string['recordnotfound'] = 'The requested record could not be found.';
+$string['confirmdelete'] = 'Are you sure you want to delete this record? This action cannot be undone.';
+$string['cancel'] = 'Cancel';
+$string['edit'] = 'Edit';
+$string['delete'] = 'Delete';
+
+$string['content'] = 'Content';
+$string['contentsettings'] = 'Program content';
+$string['contentsettingssub'] = 'Edit the description and headline figures shown on the %s program page.';
+$string['savecontent'] = 'Save content';
+$string['contentsaved'] = 'The program content has been saved.';
+$string['invalidnumber'] = 'Please enter a valid number.';
 
 $string['privacy:metadata:local_sc_volunteer'] = 'Stores volunteer applications.';
 $string['privacy:metadata:local_sc_volunteer:firstname'] = 'First name.';

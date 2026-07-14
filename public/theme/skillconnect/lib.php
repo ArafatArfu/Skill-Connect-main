@@ -132,7 +132,9 @@ function theme_skillconnect_common_context(core_renderer $output, moodle_page $p
         'coursesurl' => $coursesurl,
         'volunteerurl' => $volunteerurl,
         'contacturl' => $contacturl,
-        'dashboardurl' => rtrim($CFG->wwwroot, '/') . '/my/',
+        'dashboardurl' => ($loggedin && is_siteadmin())
+            ? rtrim($CFG->wwwroot, '/') . '/local/skillconnect/dashboard.php?program=clc'
+            : rtrim($CFG->wwwroot, '/') . '/my/',
         'adminurl' => rtrim($CFG->wwwroot, '/') . '/admin/search.php',
         'loginurl' => (string)get_login_url(),
         'isloggedin' => $loggedin,

@@ -68,6 +68,7 @@
         <FIELD NAME="email" TYPE="char" LENGTH="254" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
         <FIELD NAME="gender" TYPE="char" LENGTH="20" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
         <FIELD NAME="school" TYPE="char" LENGTH="200" NOTNULL="false" DEFAULT="" SEQUENCE="false"/>
+        <FIELD NAME="month" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Enrolment month (1-12)"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

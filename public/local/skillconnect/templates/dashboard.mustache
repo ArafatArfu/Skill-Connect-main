@@ -1,0 +1,33 @@
+<div class="sc-dash">
+    <aside class="sc-dash-sidebar" role="navigation" aria-label="Program management">
+        <div class="sc-dash-brand">
+            <span class="sc-dash-logo">{{sitename}}</span>
+            <span class="sc-dash-tag">{{#str}}programmanagement, local_skillconnect{{/str}}</span>
+        </div>
+
+        <nav class="sc-dash-nav">
+            <span class="sc-dash-nav-label">{{#str}}programs, local_skillconnect{{/str}}</span>
+            <ul>
+                {{#programs}}
+                    <li>
+                        <a href="{{url}}" class="sc-dash-link {{#active}}is-active{{/active}}">
+                            <span class="sc-dash-ic sc-dash-ic-{{key}}" aria-hidden="true"></span>
+                            <span class="sc-dash-link-text">{{name}}</span>
+                        </a>
+                    </li>
+                {{/programs}}
+            </ul>
+        </nav>
+
+        <div class="sc-dash-sidefoot">
+            <a class="sc-dash-footlink" href="{{liveurl}}" target="_blank" rel="noopener">
+                {{#str}}viewlive, local_skillconnect{{/str}} <span aria-hidden="true">&nearr;</span>
+            </a>
+            <a class="sc-dash-footlink" href="{{siteurl}}">{{#str}}backtosite, local_skillconnect{{/str}}</a>
+        </div>
+    </aside>
+
+    <main class="sc-dash-main">
+        {{{content}}}
+    </main>
+</div>

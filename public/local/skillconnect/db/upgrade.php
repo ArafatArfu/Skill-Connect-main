@@ -120,5 +120,15 @@ function xmldb_local_skillconnect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026071200, 'local', 'skillconnect');
     }
 
+    if ($oldversion < 2026071400) {
+        $dbman = $DB->get_manager();
+        $table = new xmldb_table('local_sc_program_participants');
+        if (!$dbman->field_exists($table, 'month')) {
+            $field = new xmldb_field('month', XMLDB_TYPE_INTEGER, 2, null, XMLDB_NOTNULL, null, 0);
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2026071400, 'local', 'skillconnect');
+    }
+
     return true;
 }

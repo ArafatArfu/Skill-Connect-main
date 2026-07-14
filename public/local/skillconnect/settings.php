@@ -3,11 +3,14 @@
 //
 // Lets site administrators manage the program descriptions and the CLC
 // headline statistics from Site administration. Values are read by
-// program.php and reflected on the program pages immediately.
+// program.php and reflected on the program pages immediately. The same
+// content can also be edited from the dashboard (Program Management).
 
 defined('MOODLE_INTERNAL') || die();
 
-if ($ADMIN->fulltree) {
+if ($hassiteconfig) {
+    $settings = new admin_settingpage('local_skillconnect', get_string('pluginname', 'local_skillconnect'));
+
     $settings->add(new admin_setting_heading(
         'local_skillconnect/programcontentsettings',
         get_string('programcontentsettings', 'local_skillconnect'),
@@ -65,4 +68,16 @@ if ($ADMIN->fulltree) {
     );
     $setting->set_updatedcallback('theme_reset_all_caches');
     $settings->add($setting);
+
+    $settings->add(new admin_setting_heading(
+        'local_skillconnect/dashboardlink',
+        get_string('managedashboard', 'local_skillconnect'),
+        html_writer::link(
+            new moodle_url('/local/skillconnect/dashboard.php', ['program' => 'clc']),
+            get_string('opendashboard', 'local_skillconnect'),
+            ['class' => 'btn btn-primary']
+        )
+    ));
+
+    $ADMIN->add('localplugins', $settings);
 }

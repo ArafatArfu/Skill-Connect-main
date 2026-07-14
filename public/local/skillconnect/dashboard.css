@@ -1,0 +1,220 @@
+/* SkillConnect program management dashboard.
+ * Self-contained styles for the dashboard shell (sidebar + content). The record
+ * form itself is rendered by Moodle's Boost form styles, so only the custom
+ * layout, sidebar and data table need styling here. */
+
+/* Neutralise the theme content wrapper so the dashboard can span full width
+ * without disturbing the header/footer (which keep their own .sc-container). */
+body.sc-dash-page .sc-page-shell { min-height: 0; padding: 0; background: transparent; }
+body.sc-dash-page .sc-page-shell > .sc-container { width: auto; max-width: none; margin: 0; padding: 0; }
+body.sc-dash-page .sc-content-layout { display: block; }
+body.sc-dash-page .sc-main-content {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+body.sc-dash-page .sc-side-blocks { display: none; }
+body.sc-dash-page .sc-page-header { display: none; }
+body.sc-dash-page .sc-breadcrumb { display: none; }
+body.sc-dash-page .sc-edit-switch { display: none; }
+
+.sc-dash {
+    display: grid;
+    grid-template-columns: 272px 1fr;
+    align-items: stretch;
+    min-height: calc(100vh - 92px);
+    background: #f6f7fb;
+}
+
+/* Sidebar. */
+.sc-dash-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    padding: 28px 20px;
+    background: #11192c;
+    color: #fff;
+}
+.sc-dash-brand { display: flex; flex-direction: column; gap: 4px; padding: 0 6px; }
+.sc-dash-logo { color: #fff; font-size: 20px; font-weight: 760; letter-spacing: -.3px; }
+.sc-dash-tag {
+    color: rgba(255,255,255,.55);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+}
+.sc-dash-nav { display: flex; flex-direction: column; gap: 8px; }
+.sc-dash-nav-label {
+    padding: 0 6px;
+    margin-bottom: 2px;
+    color: rgba(255,255,255,.45);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+.sc-dash-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.sc-dash-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 11px;
+    color: rgba(255,255,255,.82) !important;
+    text-decoration: none !important;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background .15s ease, color .15s ease;
+}
+.sc-dash-link:hover { background: rgba(255,255,255,.07); color: #fff !important; }
+.sc-dash-link.is-active { background: linear-gradient(135deg, #f22572, #ed1462); color: #fff !important; box-shadow: 0 8px 18px rgba(237,20,98,.28); }
+.sc-dash-ic { width: 22px; height: 22px; flex: 0 0 auto; border-radius: 7px; background: rgba(255,255,255,.12); display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+.sc-dash-link.is-active .sc-dash-ic { background: rgba(255,255,255,.22); }
+.sc-dash-ic-clc::before { content: "C"; }
+.sc-dash-ic-road_safety::before { content: "R"; }
+.sc-dash-ic-volunteer::before { content: "V"; }
+
+.sc-dash-sidefoot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; padding: 0 6px; }
+.sc-dash-footlink {
+    color: rgba(255,255,255,.7) !important;
+    text-decoration: none !important;
+    font-size: 13.5px;
+    font-weight: 550;
+    padding: 6px 0;
+}
+.sc-dash-footlink:hover { color: #fff !important; }
+
+/* Main content. */
+.sc-dash-main { padding: 30px 34px 54px; min-width: 0; }
+.sc-dash-card {
+    background: #fff;
+    border: 1px solid #ececf1;
+    border-radius: 16px;
+    box-shadow: 0 10px 28px rgba(31,39,54,.06);
+    overflow: hidden;
+}
+.sc-dash-card-title { margin: 0 0 6px; color: #172033; font-size: 22px; font-weight: 750; }
+.sc-dash-card-sub { margin: 0 0 6px; color: #666b78; font-size: 14px; }
+
+/* Top bar inside the list card. */
+.sc-dash-topbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 26px;
+    border-bottom: 1px solid #f0f1f5;
+}
+.sc-dash-topbar-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.sc-dash-topbar-title { margin: 0; color: #172033; font-size: 21px; font-weight: 750; }
+.sc-dash-topbar-sub { margin: 0; color: #666b78; font-size: 13.5px; }
+.sc-dash-count { color: #ed1462; font-size: 13px; font-weight: 700; }
+
+/* Buttons. */
+.sc-dash-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 10px;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+}
+.sc-dash-btn:hover { transform: translateY(-1px); }
+.sc-dash-btn-primary { color: #fff !important; background: linear-gradient(135deg, #f22572, #ed1462); border: 1px solid #ed1462; box-shadow: 0 8px 18px rgba(237,20,98,.2); }
+.sc-dash-btn-ghost { color: #343a4b !important; background: #fff; border: 1px solid #ececf1; }
+.sc-dash-btn-ghost:hover { border-color: #ed1462; color: #ed1462 !important; }
+.sc-dash-btn-danger { color: #fff !important; background: #e23b3b; border: 1px solid #e23b3b; box-shadow: 0 8px 18px rgba(226,59,59,.2); }
+
+/* Data table. */
+.sc-dash-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sc-dash-table thead th {
+    position: sticky;
+    top: 0;
+    text-align: left;
+    padding: 15px 18px;
+    background: #172033;
+    color: #fff;
+    font-weight: 650;
+    font-size: 12.5px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border-bottom: 3px solid #ed1462;
+}
+.sc-dash-table tbody td { padding: 13px 18px; border-bottom: 1px solid #f0f1f5; color: #3d4350; vertical-align: top; max-width: 240px; }
+.sc-dash-table tbody tr:nth-child(even) { background: #fafbfd; }
+.sc-dash-table tbody tr:hover { background: #fff1f6; }
+.sc-dash-empty-row td { text-align: center; padding: 40px 18px; color: #666b78; }
+.sc-dash-actions-col { white-space: nowrap; }
+.sc-dash-actions-col a { margin-right: 12px; }
+.sc-dash-action { font-size: 13.5px; font-weight: 650; text-decoration: none !important; }
+.sc-dash-edit { color: #ed1462 !important; }
+.sc-dash-delete { color: #e23b3b !important; }
+
+/* Pagination. */
+.sc-dash-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 26px;
+    border-top: 1px solid #ececf1;
+    background: #fff;
+}
+.sc-dash-pg-info { color: #666b78; font-size: 13px; }
+.sc-dash-pg-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+.sc-dash-pg-btn {
+    min-width: 38px;
+    min-height: 38px;
+    padding: 0 12px;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid #ececf1;
+    border-radius: 9px;
+    background: #fff;
+    color: #343a4b !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.sc-dash-pg-btn:hover:not(.is-disabled):not(.is-active) { border-color: #ed1462; color: #ed1462 !important; }
+.sc-dash-pg-btn.is-active { background: #ed1462; border-color: #ed1462; color: #fff !important; cursor: default; }
+.sc-dash-pg-btn.is-disabled { opacity: .45; pointer-events: none; }
+.sc-dash-pg-ellipsis { padding: 0 4px; color: #666b78; }
+
+/* Form card (record create/edit). */
+.sc-dash-card .mform { padding: 24px 26px 28px; }
+.sc-dash-card .mform .fitem { margin-bottom: 16px; }
+
+/* Confirmation card. */
+.sc-dash-confirm .sc-dash-confirm-msg { margin: 18px 26px 6px; font-size: 15px; color: #343a4b; }
+.sc-dash-confirm .sc-dash-confirm-meta { margin: 0 26px 18px; color: #666b78; font-size: 13.5px; font-weight: 600; }
+.sc-dash-confirm-actions { display: flex; gap: 12px; padding: 0 26px 28px; flex-wrap: wrap; }
+
+/* Responsive. */
+@media (max-width: 980px) {
+    .sc-dash { grid-template-columns: 1fr; }
+    .sc-dash-sidebar { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 16px; }
+    .sc-dash-brand { flex: 1 1 160px; }
+    .sc-dash-nav { flex: 1 1 100%; }
+    .sc-dash-nav ul { flex-direction: row; flex-wrap: wrap; }
+    .sc-dash-link { padding: 10px 14px; }
+    .sc-dash-sidefoot { flex-direction: row; margin-top: 0; gap: 18px; }
+    .sc-dash-main { padding: 22px 18px 40px; }
+}
+@media (max-width: 560px) {
+    .sc-dash-topbar { padding: 18px 18px; }
+    .sc-dash-table thead th, .sc-dash-table tbody td { padding: 11px 12px; }
+    .sc-dash-card .mform { padding: 18px; }
+}
