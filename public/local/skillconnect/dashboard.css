@@ -193,9 +193,161 @@ body.sc-dash-page .sc-edit-switch { display: none; }
 .sc-dash-pg-btn.is-disabled { opacity: .45; pointer-events: none; }
 .sc-dash-pg-ellipsis { padding: 0 4px; color: #666b78; }
 
-/* Form card (record create/edit). */
-.sc-dash-card .mform { padding: 24px 26px 28px; }
-.sc-dash-card .mform .fitem { margin-bottom: 16px; }
+/* Form card (record create/edit and program content). */
+.sc-dash-card .mform { padding: 2px 24px 20px; }
+
+/* Keep every section open and treat them as static, well separated groups. */
+.sc-dash-card .mform .collapsible-actions { display: none; }
+.sc-dash-card .mform .ftoggler .icons-collapse-expand,
+.sc-dash-card .mform .ftoggler > a.btn-icon { display: none; }
+.sc-dash-card .mform fieldset .fcontainer {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 12px;
+}
+
+/* Section heading. */
+.sc-dash-card .mform fieldset { border: 0; margin: 0; padding: 0; }
+.sc-dash-card .mform fieldset + fieldset {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid #f0f1f5;
+}
+.sc-dash-card .mform fieldset > div.d-flex { display: flex; align-items: center; margin: 0 0 10px; padding: 0; }
+.sc-dash-card .mform .ftoggler h3 {
+    position: relative;
+    margin: 0;
+    padding-left: 13px;
+    font-size: 14.5px;
+    font-weight: 720;
+    color: #172033;
+    letter-spacing: -.2px;
+}
+.sc-dash-card .mform .ftoggler h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    bottom: 1px;
+    width: 4px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #f22572, #ed1462);
+}
+
+/* Field rows: stack the label above the control. */
+.sc-dash-card .mform .fitem { display: flex; flex-direction: column; align-items: stretch; margin: 0; }
+.sc-dash-card .mform .fitem .col-md-3,
+.sc-dash-card .mform .fitem .col-form-label {
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+    padding: 0;
+    margin: 0 0 5px;
+}
+.sc-dash-card .mform .fitem .col-md-9,
+.sc-dash-card .mform .fitem .felement {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Labels. */
+.sc-dash-card .mform .col-form-label label,
+.sc-dash-card .mform .fitemtitle label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #172033;
+}
+.sc-dash-card .mform .text-danger { color: #ed1462 !important; }
+
+/* Inputs, selects and textareas. */
+.sc-dash-card .mform .form-control,
+.sc-dash-card .mform select.form-select,
+.sc-dash-card .mform input[type="text"],
+.sc-dash-card .mform select,
+.sc-dash-card .mform textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid #ececf1;
+    border-radius: 9px;
+    background: #fff;
+    color: #343a4b;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.sc-dash-card .mform textarea.form-control { padding: 10px 12px; min-height: 90px; resize: vertical; }
+.sc-dash-card .mform select,
+.sc-dash-card .mform select.form-control,
+.sc-dash-card .mform select.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23ed1462' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+.sc-dash-card .mform .form-control:focus,
+.sc-dash-card .mform select.form-select:focus,
+.sc-dash-card .mform input:focus,
+.sc-dash-card .mform select:focus,
+.sc-dash-card .mform textarea:focus {
+    outline: 0;
+    border-color: #ed1462;
+    box-shadow: 0 0 0 3px rgba(237,20,98,.15);
+}
+
+/* Full-width fields. */
+.sc-dash-card .mform #fitem_id_school,
+.sc-dash-card .mform #fitem_id_schoolnote { grid-column: 1 / -1; }
+
+/* Helper note under the School field. */
+.sc-dash-card .mform #fitem_id_schoolnote .felement {
+    margin-top: -6px;
+    color: #666b78;
+    font-size: 11.5px;
+    line-height: 1.5;
+}
+
+/* Action buttons. */
+.sc-dash-card .mform #fgroup_id_buttonar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 4px;
+}
+.sc-dash-card .mform #fgroup_id_buttonar .felement { width: auto; padding: 0; }
+.sc-dash-card .mform .btn {
+    min-height: 42px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 650;
+    font-family: inherit;
+    cursor: pointer;
+    transition: filter .15s ease, border-color .15s ease, color .15s ease;
+}
+.sc-dash-card .mform .btn-primary {
+    background: linear-gradient(135deg, #f22572, #ed1462);
+    color: #fff;
+    border-color: #ed1462;
+    box-shadow: 0 8px 18px rgba(237,20,98,.2);
+}
+.sc-dash-card .mform .btn-primary:hover { filter: brightness(1.03); }
+.sc-dash-card .mform .btn-secondary { background: #fff; color: #343a4b; border-color: #ececf1; }
+.sc-dash-card .mform .btn-secondary:hover { border-color: #ed1462; color: #ed1462; }
+
+/* Responsive. */
+@media (max-width: 760px) {
+    .sc-dash-card .mform { padding: 2px 16px 18px; }
+    .sc-dash-card .mform fieldset .fcontainer { grid-template-columns: 1fr; row-gap: 12px; }
+    .sc-dash-card .mform #fgroup_id_buttonar { justify-content: stretch; }
+    .sc-dash-card .mform #fgroup_id_buttonar .btn { flex: 1; }
+}
 
 /* Confirmation card. */
 .sc-dash-confirm .sc-dash-confirm-msg { margin: 18px 26px 6px; font-size: 15px; color: #343a4b; }
@@ -216,5 +368,41 @@ body.sc-dash-page .sc-edit-switch { display: none; }
 @media (max-width: 560px) {
     .sc-dash-topbar { padding: 18px 18px; }
     .sc-dash-table thead th, .sc-dash-table tbody td { padding: 11px 12px; }
-    .sc-dash-card .mform { padding: 18px; }
+    .sc-dash-card .mform { padding: 14px; }
+}
+
+/* Searchable school dropdown. */
+.sc-school-search-wrapper { position: relative; }
+.sc-school-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 50;
+    max-height: 264px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ececf1;
+    border-radius: 9px;
+    box-shadow: 0 10px 24px rgba(31,39,54,.12);
+    display: none;
+    margin-top: 4px;
+}
+.sc-school-dropdown.is-open { display: block; }
+.sc-school-dropdown-item {
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #343a4b;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f1f5;
+}
+.sc-school-dropdown-item:last-child { border-bottom: 0; }
+.sc-school-dropdown-item:hover,
+.sc-school-dropdown-item.is-active { background: #fff1f6; color: #ed1462; }
+.sc-school-dropdown-item.is-disabled { opacity: .5; pointer-events: none; }
+.sc-school-dropdown-more {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #666b78;
+    font-style: italic;
 }

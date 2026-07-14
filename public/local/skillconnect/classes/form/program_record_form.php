@@ -8,12 +8,10 @@ require_once($CFG->libdir . '/formslib.php');
 /**
  * Form used by the dashboard to create and edit a single program record.
  *
- * Fields:
- *  - School: a searchable dropdown (native <datalist>) that also accepts
- *    free-text input when the school is not in the list.
- *  - Date: a month + year selection.
- *  - All remaining information fields shown on the public CLC page, starting
- *    from Name and continuing with every existing column.
+ * Fields are grouped into logical sections (School, Enrolment date, Personal
+ * details, Location and Contact) so the form is easy to scan. The School field
+ * is a searchable dropdown (native <datalist>) that also accepts free-text input
+ * when the school is not in the list.
  */
 class program_record_form extends \moodleform {
 
@@ -26,26 +24,29 @@ class program_record_form extends \moodleform {
         $mform = $this->_form;
         $program = $this->_customdata['program'] ?? 'clc';
 
-        // --- School: searchable dropdown with manual text entry. ---
         $schools = $DB->get_fieldset_sql(
             "SELECT DISTINCT school FROM {local_sc_program_participants} WHERE school <> '' ORDER BY school ASC"
         );
+
+        // --- Section: School. ---
+        $mform->addElement('header', 'hdr_school', get_string('section_school', 'local_skillconnect'));
+
         $mform->addElement('text', 'school', get_string('school', 'local_skillconnect'), [
-            'list' => 'sc-school-options',
+            'id' => 'sc-school-input',
             'autocomplete' => 'off',
             'placeholder' => get_string('schoolplaceholder', 'local_skillconnect'),
             'maxlength' => 200,
+            'class' => 'sc-school-search-input',
         ]);
         $mform->setType('school', PARAM_TEXT);
         $mform->addRule('school', null, 'required', null, 'client');
 
-        $options = '';
-        foreach ($schools as $s) {
-            $options .= \html_writer::tag('option', s($s), ['value' => s($s)]);
-        }
-        $mform->addElement('html', \html_writer::tag('datalist', $options, ['id' => 'sc-school-options']));
+        $schoolsjson = json_encode(array_values($schools));
+        $mform->addElement('static', 'schoolnote', '', get_string('schoolnote', 'local_skillconnect'));
 
-        // --- Date: month + year selection. ---
+        // --- Section: Enrolment date. ---
+        $mform->addElement('header', 'hdr_date', get_string('section_date', 'local_skillconnect'));
+
         $months = [];
         for ($m = 1; $m <= 12; $m++) {
             $months[$m] = userdate(gmmktime(0, 0, 0, $m, 1, 2000), '%B');
@@ -59,14 +60,16 @@ class program_record_form extends \moodleform {
         $mform->addElement('select', 'month', get_string('month', 'local_skillconnect'), $months);
         $mform->setType('month', PARAM_INT);
         $mform->addRule('month', null, 'required', null, 'client');
+        $mform->setDefault('month', (int) date('n'));
 
         $mform->addElement('select', 'year', get_string('year', 'local_skillconnect'), $years);
         $mform->setType('year', PARAM_INT);
         $mform->addRule('year', null, 'required', null, 'client');
         $mform->setDefault('year', (int) date('Y'));
-        $mform->setDefault('month', (int) date('n'));
 
-        // --- Remaining information fields (Name first, then every CLC column). ---
+        // --- Section: Personal details. ---
+        $mform->addElement('header', 'hdr_personal', get_string('section_personal', 'local_skillconnect'));
+
         $mform->addElement('text', 'name', get_string('name', 'local_skillconnect'), ['maxlength' => 200]);
         $mform->setType('name', PARAM_TEXT);
         $mform->addRule('name', null, 'required', null, 'client');
@@ -77,6 +80,17 @@ class program_record_form extends \moodleform {
         $mform->addElement('text', 'mother_name', get_string('mothername', 'local_skillconnect'), ['maxlength' => 200]);
         $mform->setType('mother_name', PARAM_TEXT);
 
+        $mform->addElement('select', 'gender', get_string('gender', 'local_skillconnect'), [
+            '' => get_string('selectone', 'local_skillconnect'),
+            'Male' => get_string('male', 'local_skillconnect'),
+            'Female' => get_string('female', 'local_skillconnect'),
+            'Other' => get_string('other', 'local_skillconnect'),
+        ]);
+        $mform->setType('gender', PARAM_ALPHANUMEXT);
+
+        // --- Section: Location. ---
+        $mform->addElement('header', 'hdr_location', get_string('section_location', 'local_skillconnect'));
+
         $mform->addElement('text', 'district', get_string('district', 'local_skillconnect'), ['maxlength' => 100]);
         $mform->setType('district', PARAM_TEXT);
 
@@ -86,19 +100,14 @@ class program_record_form extends \moodleform {
         $mform->addElement('text', 'upazila', get_string('upazila', 'local_skillconnect'), ['maxlength' => 100]);
         $mform->setType('upazila', PARAM_TEXT);
 
+        // --- Section: Contact. ---
+        $mform->addElement('header', 'hdr_contact', get_string('section_contact', 'local_skillconnect'));
+
         $mform->addElement('text', 'mobile', get_string('mobile', 'local_skillconnect'), ['maxlength' => 30]);
         $mform->setType('mobile', PARAM_RAW_TRIMMED);
 
         $mform->addElement('text', 'email', get_string('email', 'local_skillconnect'), ['maxlength' => 254]);
         $mform->setType('email', PARAM_EMAIL);
-
-        $mform->addElement('select', 'gender', get_string('gender', 'local_skillconnect'), [
-            '' => get_string('selectone', 'local_skillconnect'),
-            'Male' => get_string('male', 'local_skillconnect'),
-            'Female' => get_string('female', 'local_skillconnect'),
-            'Other' => get_string('other', 'local_skillconnect'),
-        ]);
-        $mform->setType('gender', PARAM_ALPHANUMEXT);
 
         // Hidden state.
         $mform->addElement('hidden', 'id', 0);
