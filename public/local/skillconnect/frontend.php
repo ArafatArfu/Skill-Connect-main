@@ -1,48 +1,25 @@
 <?php
-// Create / edit a single program record from the dashboard.
+// Public frontend form for CLC student self-registration.
 //
-// On save the record is written to {local_sc_program_participants} with the
-// correct `program` value, so it appears immediately in both the dashboard list
-// and the matching public program page (which is unchanged).
+// Visitors can submit their student information without logging in.
+// The data is stored in the same {local_sc_program_participants} table
+// with program = 'clc'.
 
 require_once(__DIR__ . '/../../config.php');
 require_once(__DIR__ . '/locallib.php');
+require_once(__DIR__ . '/classes/form/program_record_form.php');
 
 use local_skillconnect\form\program_record_form;
 
-local_skillconnect_require_manager();
+$PAGE->set_url(new moodle_url('/local/skillconnect/frontend.php'));
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('base');
+$PAGE->add_body_class('sc-frontend-page');
+$PAGE->set_title(get_string('clcstudentlist', 'local_skillconnect'));
+$PAGE->set_heading(get_string('clcstudentlist', 'local_skillconnect'));
 
-$programkey = required_param('program', PARAM_ALPHANUMEXT);
-$programs = local_skillconnect_programs();
-if (!array_key_exists($programkey, $programs)) {
-    $programkey = 'clc';
-}
-$id = optional_param('id', 0, PARAM_INT);
-$program = $programs[$programkey];
-
-local_skillconnect_dashboard_page_setup($programkey, $program['fullname'] . ' ' . get_string('management', 'local_skillconnect'));
-
-global $DB, $OUTPUT;
-
-$record = null;
-if ($id) {
-    $record = $DB->get_record('local_sc_program_participants', ['id' => $id, 'program' => $programkey]);
-    if (!$record) {
-        redirect(
-            new moodle_url('/local/skillconnect/dashboard.php', ['program' => $programkey]),
-            get_string('recordnotfound', 'local_skillconnect'),
-            null,
-            \core\output\notification::NOTIFY_ERROR
-        );
-    }
-}
-
-$form = new program_record_form(null, ['program' => $programkey, 'record' => $record]);
-
-if ($record) {
-    $defaults = (array) $record;
-    $form->set_data($defaults);
-}
+$programkey = 'clc';
+$form = new program_record_form(null, ['program' => $programkey]);
 
 if ($data = $form->get_data()) {
     $year = (int) $data->year;
@@ -65,42 +42,28 @@ if ($data = $form->get_data()) {
         'timecreated' => mktime(0, 0, 0, $month, 1, $year),
     ];
 
-    if (!empty($data->id)) {
-        $save->id = $data->id;
-        $DB->update_record('local_sc_program_participants', $save);
-        $message = get_string('recordupdated', 'local_skillconnect');
-    } else {
-        $DB->insert_record('local_sc_program_participants', $save);
-        $message = get_string('recordcreated', 'local_skillconnect');
-    }
+    global $DB;
+    $DB->insert_record('local_sc_program_participants', $save);
 
-    redirect(
-        new moodle_url('/local/skillconnect/dashboard.php', ['program' => $programkey]),
-        $message,
-        null,
-        \core\output\notification::NOTIFY_SUCCESS
+    $formhtml = html_writer::div(
+        html_writer::tag('h2', get_string('recordcreated', 'local_skillconnect'), ['class' => 'sc-frontend-success-title'])
+            . html_writer::tag('p', get_string('addrecordsub', 'local_skillconnect', 'CLC'), ['class' => 'sc-frontend-success-sub']),
+        'sc-frontend-success'
     );
+} else {
+    ob_start();
+    $form->display();
+    $formhtml = ob_get_clean();
 }
 
-// Capture the rendered form so it can live inside the dashboard shell.
-ob_start();
-$form->display();
-$formhtml = ob_get_clean();
-
-$title = $id ? get_string('editrecord', 'local_skillconnect') : get_string('addrecord', 'local_skillconnect');
-$subtitle = $id
-    ? get_string('editrecordsub', 'local_skillconnect', $program['name'])
-    : get_string('addrecordsub', 'local_skillconnect', $program['name']);
+$content = html_writer::start_div('sc-frontend-card')
+    . html_writer::tag('h2', get_string('addrecord', 'local_skillconnect'), ['class' => 'sc-frontend-card-title'])
+    . html_writer::tag('p', get_string('addrecordsub', 'local_skillconnect', 'CLC'), ['class' => 'sc-frontend-card-sub'])
+    . $formhtml
+    . html_writer::end_div();
 
 $schoolsjson = json_encode(array_values(local_skillconnect_distinct_schools()));
 $schoolsscript = '<script type="text/javascript">window.SKILLCONNECT_SCHOOLS = ' . $schoolsjson . ';</script>';
-
-$content = $schoolsscript
-    . html_writer::start_div('sc-dash-card')
-    . html_writer::tag('h2', s($title), ['class' => 'sc-dash-card-title'])
-    . html_writer::tag('p', s($subtitle), ['class' => 'sc-dash-card-sub'])
-    . $formhtml
-    . html_writer::end_div();
 
 $PAGE->requires->js_init_code('
 (function() {
@@ -216,20 +179,23 @@ $PAGE->requires->js_init_code('
 (function() {
     var classSelect = document.getElementById("id_class");
     var customInput = document.getElementById("sc-custom-class-input");
-    if (classSelect && customInput) {
-        function toggleCustom() {
-            if (classSelect.value === "other") {
-                customInput.style.display = "";
-                customInput.setAttribute("required", "required");
-            } else {
-                customInput.style.display = "none";
-                customInput.removeAttribute("required");
-            }
-        }
-        toggleCustom();
-        classSelect.addEventListener("change", toggleCustom);
+    if (!classSelect || !customInput) {
+        return;
     }
+    function toggleCustom() {
+        if (classSelect.value === "other") {
+            customInput.style.display = "";
+            customInput.setAttribute("required", "required");
+        } else {
+            customInput.style.display = "none";
+            customInput.removeAttribute("required");
+        }
+    }
+    toggleCustom();
+    classSelect.addEventListener("change", toggleCustom);
+})();
 
+(function() {
     var divisionSelect = document.getElementById("id_division");
     var districtSelect = document.getElementById("id_district");
     var upazilaSelect = document.getElementById("id_upazila");
@@ -281,5 +247,5 @@ $PAGE->requires->js_init_code('
 ');
 
 echo $OUTPUT->header();
-echo local_skillconnect_dashboard_shell($content, $programkey);
+echo $schoolsscript . $content;
 echo $OUTPUT->footer();

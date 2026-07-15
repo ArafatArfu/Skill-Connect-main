@@ -7,7 +7,6 @@
             <span class="sc-program-badge">
                 <span class="sc-program-dot" aria-hidden="true"></span>{{programlabel}}
             </span>
-            <span class="sc-program-count"><strong id="sc-program-total">{{total}}</strong> participants enrolled</span>
         </div>
 
         {{#hasstats}}
@@ -31,6 +30,34 @@
 
             <div class="sc-filter-grid">
                 <div class="sc-filter-field">
+                    <label for="f-school">School Name</label>
+                    <select id="f-school" name="school">
+                        <option value="">All schools</option>
+                        {{#schools}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/schools}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-month">Month</label>
+                    <select id="f-month" name="month">
+                        <option value="">All months</option>
+                        {{#months}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/months}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-year">Year</label>
+                    <select id="f-year" name="year">
+                        <option value="">All years</option>
+                        {{#years}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/years}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
+                    <label for="f-class">Class</label>
+                    <select id="f-class" name="class">
+                        <option value="">All classes</option>
+                        {{#classes}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/classes}}
+                    </select>
+                </div>
+                <div class="sc-filter-field">
                     <label for="f-division">Division</label>
                     <select id="f-division" name="division">
                         <option value="">All divisions</option>
@@ -45,17 +72,10 @@
                     </select>
                 </div>
                 <div class="sc-filter-field">
-                    <label for="f-upazila">Upazila</label>
+                    <label for="f-upazila">Upazila/Thana</label>
                     <select id="f-upazila" name="upazila">
                         <option value="">All upazilas</option>
                         {{#upazilas}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/upazilas}}
-                    </select>
-                </div>
-                <div class="sc-filter-field">
-                    <label for="f-school">School</label>
-                    <select id="f-school" name="school">
-                        <option value="">All schools</option>
-                        {{#schools}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/schools}}
                     </select>
                 </div>
                 <div class="sc-filter-field">
@@ -63,13 +83,6 @@
                     <select id="f-gender" name="gender">
                         <option value="">All genders</option>
                         {{#genders}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/genders}}
-                    </select>
-                </div>
-                <div class="sc-filter-field">
-                    <label for="f-year">Year</label>
-                    <select id="f-year" name="year">
-                        <option value="">All years</option>
-                        {{#years}}<option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>{{/years}}
                     </select>
                 </div>
                 <div class="sc-filter-field">
@@ -86,14 +99,14 @@
                     </select>
                 </div>
                 <div class="sc-filter-actions">
-                    <button type="submit" class="sc-btn sc-btn-primary">Search</button>
-                    <button type="button" class="sc-btn sc-btn-ghost" data-reset>Reset</button>
+                    <button type="submit" class="sc-btn sc-btn-primary">Apply Filters</button>
+                    <button type="button" class="sc-btn sc-btn-ghost" data-reset>Reset Filters</button>
                 </div>
             </div>
         </form>
 
         <div class="sc-program-toolbar">
-            <h2 class="sc-panel-title">Participants</h2>
+            <h2 class="sc-panel-title">{{#str}}clcstudentlist, local_skillconnect{{/str}}</h2>
             <p class="sc-panel-sub">Program enrolment records</p>
         </div>
 

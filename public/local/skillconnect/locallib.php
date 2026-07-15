@@ -10,6 +10,26 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Management modules shown in the dashboard sidebar below Programs.
+ *
+ * @return array
+ */
+function local_skillconnect_management_modules(): array {
+    return [
+        'header' => [
+            'key' => 'header',
+            'name' => 'Header Management',
+            'url' => (new moodle_url('/local/skillconnect/header.php'))->out(false),
+        ],
+        'footer' => [
+            'key' => 'footer',
+            'name' => 'Footer Management',
+            'url' => (new moodle_url('/local/skillconnect/footer.php'))->out(false),
+        ],
+    ];
+}
+
+/**
  * Program metadata used by the dashboard and the public program pages.
  *
  * @return array
@@ -100,9 +120,10 @@ function local_skillconnect_distinct_schools(): array {
  *
  * @param string $content
  * @param string $activeprogram
+ * @param string|null $activemodule
  * @return string
  */
-function local_skillconnect_dashboard_shell(string $content, string $activeprogram): string {
+function local_skillconnect_dashboard_shell(string $content, string $activeprogram, ?string $activemodule = null): string {
     global $OUTPUT, $SITE;
 
     $programs = local_skillconnect_programs();
@@ -116,15 +137,69 @@ function local_skillconnect_dashboard_shell(string $content, string $activeprogr
         ];
     }
 
+    $modules = local_skillconnect_management_modules();
+    $modulenav = [];
+    foreach ($modules as $key => $m) {
+        $modulenav[] = [
+            'key' => $key,
+            'name' => $m['name'],
+            'url' => $m['url'],
+            'active' => $key === $activemodule,
+        ];
+    }
+
     $context = [
         'sitename' => format_string($SITE->shortname),
         'programs' => $nav,
+        'modules' => $modulenav,
+        'hasmodules' => !empty($modulenav),
         'liveurl' => (new moodle_url('/local/skillconnect/program.php', ['program' => $activeprogram]))->out(false),
         'siteurl' => (new moodle_url('/'))->out(false),
         'content' => $content,
     ];
 
     return $OUTPUT->render_from_template('local_skillconnect/dashboard', $context);
+}
+
+/**
+ * Get a theme_skillconnect config value with a fallback default.
+ *
+ * @param string $name
+ * @param string $default
+ * @return string
+ */
+function local_skillconnect_theme_setting(string $name, string $default = ''): string {
+    $value = get_config('theme_skillconnect', $name);
+    if ($value === false || $value === null || $value === '') {
+        return $default;
+    }
+    return (string)$value;
+}
+
+/**
+ * Set a theme_skillconnect config value.
+ *
+ * @param string $name
+ * @param string|int $value
+ */
+function local_skillconnect_set_theme_setting(string $name, $value): void {
+    set_config($name, $value, 'theme_skillconnect');
+}
+
+/**
+ * Decode a JSON-encoded theme setting into an array.
+ *
+ * @param string $name
+ * @param array $default
+ * @return array
+ */
+function local_skillconnect_theme_json_setting(string $name, array $default = []): array {
+    $raw = local_skillconnect_theme_setting($name, '');
+    if ($raw === '') {
+        return $default;
+    }
+    $decoded = json_decode($raw, true);
+    return is_array($decoded) ? $decoded : $default;
 }
 
 /**

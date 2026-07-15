@@ -1,0 +1,85 @@
+<div class="sc-dash-card">
+    <h2 class="sc-dash-card-title">{{#str}}excel, local_skillconnect{{/str}}</h2>
+    <p class="sc-dash-card-sub">{{#str}}exceluploaddesc, local_skillconnect{{/str}}</p>
+
+    <div class="sc-mgmt-actions" style="margin-bottom: 24px;">
+        <a href="{{downloadurl}}" class="sc-dash-btn sc-dash-btn-ghost">
+            {{#str}}exceltemplate, local_skillconnect{{/str}}
+        </a>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="sc-mgmt-form">
+        <input type="hidden" name="sesskey" value="{{sesskey}}">
+
+        <div class="sc-mgmt-field">
+            <label for="excelfile">{{#str}}excelupload, local_skillconnect{{/str}}</label>
+            <input type="file" name="excelfile" id="excelfile" accept=".xlsx,.xls" required>
+        </div>
+
+        <div class="sc-mgmt-actions">
+            <button type="submit" class="sc-dash-btn sc-dash-btn-primary">{{#str}}excelupload, local_skillconnect{{/str}}</button>
+        </div>
+    </form>
+
+    {{#importresult}}
+    <div class="sc-mgmt-section" style="margin-top:24px;">{{#str}}previewsummary, local_skillconnect{{/str}}</div>
+    <div class="sc-mgmt-grid-3" style="margin-bottom: 18px;">
+        <div class="sc-mgmt-field">
+            <label>{{#str}}excelvalidrows, local_skillconnect{{/str}}</label>
+            <strong>{{inserted}}</strong>
+        </div>
+        <div class="sc-mgmt-field">
+            <label>{{#str}}excelinvalidrows, local_skillconnect{{/str}}</label>
+            <strong>{{failed}}</strong>
+        </div>
+        <div class="sc-mgmt-field">
+            <label>{{#str}}excelduplicaterows, local_skillconnect{{/str}}</label>
+            <strong>{{skipped}}</strong>
+        </div>
+    </div>
+    {{/importresult}}
+
+    {{#uploadedrecords}}
+    <div class="sc-mgmt-section">Uploaded Records</div>
+    <div style="overflow-x: auto; margin-bottom: 18px;">
+        <table class="sc-data-table">
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    <th>School Name</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Student Name</th>
+                    <th>Father's Name</th>
+                    <th>Class</th>
+                    <th>Division</th>
+                    <th>District</th>
+                    <th>Upazila/Thana</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#uploadedrecords}}
+                <tr>
+                    <td>{{row}}</td>
+                    <td>{{school}}</td>
+                    <td>{{month}}</td>
+                    <td>{{year}}</td>
+                    <td>{{name}}</td>
+                    <td>{{father_name}}</td>
+                    <td>{{class}}</td>
+                    <td>{{division}}</td>
+                    <td>{{district}}</td>
+                    <td>{{upazila}}</td>
+                    <td>{{mobile}}</td>
+                    <td>{{email}}</td>
+                    <td>{{gender}}</td>
+                </tr>
+                {{/uploadedrecords}}
+            </tbody>
+        </table>
+    </div>
+    {{/uploadedrecords}}
+</div>

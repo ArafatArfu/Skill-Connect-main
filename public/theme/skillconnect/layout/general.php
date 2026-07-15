@@ -28,7 +28,18 @@ echo $OUTPUT->doctype();
 <html <?php echo $OUTPUT->htmlattributes(); ?>>
 <head>
     <title><?php echo $OUTPUT->page_title(); ?></title>
-    <link rel="shortcut icon" href="<?php echo $OUTPUT->favicon(); ?>">
+    <?php
+    $favicon = $OUTPUT->favicon();
+    $customfavicon = theme_skillconnect_setting('favicon', '');
+    if ($customfavicon !== '') {
+        $theme = theme_config::load('skillconnect');
+        $faviconurl = $theme->setting_file_url('favicon', 'favicon');
+        if ($faviconurl) {
+            $favicon = (string)$faviconurl;
+        }
+    }
+    ?>
+    <link rel="shortcut icon" href="<?php echo $favicon; ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php echo $OUTPUT->standard_head_html(); ?>
 </head>

@@ -5,52 +5,98 @@
     <div class="sc-container sc-footer-grid">
         <section class="sc-footer-brand">
             <a class="sc-brand" href="{{homeurl}}">
-                <img class="sc-brand-logo" src="{{logo}}" alt="">
-                <span class="sc-brand-copy"><strong>{{sitename}}</strong><small>{{tagline}}</small></span>
+                <img class="sc-brand-logo" src="{{footerlogo}}" alt="{{sitename}}">
             </a>
             <p>{{footerdescription}}</p>
             <div class="sc-socials" aria-label="Social media links">
-                <a href="{{facebookurl}}" aria-label="Facebook">f</a>
-                <a href="{{instagramurl}}" aria-label="Instagram">◎</a>
-                <a href="{{twitterurl}}" aria-label="X / Twitter">♥</a>
-                <a href="{{linkedinurl}}" aria-label="LinkedIn">in</a>
+                {{#sociallinks}}
+                    {{#visible}}
+                        <a href="{{url}}" aria-label="{{platform}}">{{icon}}</a>
+                    {{/visible}}
+                {{/sociallinks}}
+                {{^sociallinks}}
+                    <a href="{{facebookurl}}" aria-label="Facebook">f</a>
+                    <a href="{{instagramurl}}" aria-label="Instagram">◎</a>
+                    <a href="{{twitterurl}}" aria-label="X / Twitter">♥</a>
+                    <a href="{{linkedinurl}}" aria-label="LinkedIn">in</a>
+                {{/sociallinks}}
             </div>
         </section>
 
         <section>
             <h2>Quick Links</h2>
-            <a href="{{homeurl}}">Home</a>
-            <a href="{{programsurl}}">Programs</a>
-            <a href="{{coursesurl}}">Courses</a>
-            <a href="{{volunteerurl}}">Volunteer</a>
-            <a href="{{contacturl}}">Contact</a>
+            {{#quicklinks}}
+                <a href="{{url}}">{{text}}</a>
+            {{/quicklinks}}
+            {{^quicklinks}}
+                <a href="{{homeurl}}">Home</a>
+                <a href="{{programsurl}}">Programs</a>
+                <a href="{{coursesurl}}">Courses</a>
+                <a href="{{volunteerurl}}">Volunteer</a>
+                <a href="{{contacturl}}">Contact</a>
+            {{/quicklinks}}
         </section>
 
         <section>
             <h2>Contact Us</h2>
-            <p class="sc-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm2 2v.5l7 5 7-5V7l-7 5-7-5Z"/></svg>
-                <a href="mailto:{{contactemail}}">{{contactemail}}</a>
-            </p>
-            <p class="sc-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2 10 5.4 8.2 8.1c1.3 2.7 3.4 4.8 6.1 6.1l2.7-1.8 3.4 3.4-1.7 3.1c-.5.9-1.5 1.3-2.5 1.1C8.9 18.6 3.4 13.1 2 5.8 1.8 4.8 2.2 3.8 3.1 3.3L6.6 2Z"/></svg>
-                <a href="tel:{{contactphone}}">{{contactphone}}</a>
-            </p>
-            <p class="sc-contact-row">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.4 7 13 7 13s7-7.6 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
-                <span>{{contactaddress}}</span>
-            </p>
+            {{#contactemail}}
+                <p class="sc-contact-row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm2 2v.5l7 5 7-5V7l-7 5-7-5Z"/></svg>
+                    <a href="mailto:{{contactemail}}">{{contactemail}}</a>
+                </p>
+            {{/contactemail}}
+            {{#contactemail2}}
+                <p class="sc-contact-row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm2 2v.5l7 5 7-5V7l-7 5-7-5Z"/></svg>
+                    <a href="mailto:{{contactemail2}}">{{contactemail2}}</a>
+                </p>
+            {{/contactemail2}}
+            {{#contactphone}}
+                <p class="sc-contact-row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2 10 5.4 8.2 8.1c1.3 2.7 3.4 4.8 6.1 6.1l2.7-1.8 3.4 3.4-1.7 3.1c-.5.9-1.5 1.3-2.5 1.1C8.9 18.6 3.4 13.1 2 5.8 1.8 4.8 2.2 3.8 3.1 3.3L6.6 2Z"/></svg>
+                    <a href="tel:{{contactphone}}">{{contactphone}}</a>
+                </p>
+            {{/contactphone}}
+            {{#contactaddress}}
+                <p class="sc-contact-row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.4 7 13 7 13s7-7.6 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+                    <span>{{contactaddress}}</span>
+                </p>
+            {{/contactaddress}}
+            {{#contacthours}}
+                <p class="sc-contact-row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm1-13h-2v6l5.2 3.2.8-1.3-4.5-2.7V7Z"/></svg>
+                    <span>{{contacthours}}</span>
+                </p>
+            {{/contacthours}}
+            {{#googlemaplink}}
+                <p class="sc-contact-row">
+                    <a href="{{googlemaplink}}" target="_blank" rel="noopener">View on Google Maps</a>
+                </p>
+            {{/googlemaplink}}
         </section>
 
         <section>
-            <h2>Stay Connected</h2>
-            <p>Subscribe to our newsletter for updates on programs, courses and events.</p>
+            <h2>{{stayheading}}</h2>
+            <p>{{staydescription}}</p>
+            {{#newsletterenabled}}
             <form class="sc-newsletter" action="{{newsletteraction}}" method="post">
                 <label class="sr-only" for="sc-newsletter-email">Email address</label>
-                <input id="sc-newsletter-email" type="email" name="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
+                <input id="sc-newsletter-email" type="email" name="email" placeholder="{{newsletterplaceholder}}" required>
+                <button type="submit">{{newsletterbutton}}</button>
             </form>
+            {{/newsletterenabled}}
         </section>
     </div>
-    <div class="sc-copyright">© {{currentyear}} {{sitename}}. All Rights Reserved.</div>
+    <div class="sc-copyright">
+        {{#copyrighttext}}
+            {{copyrighttext}}
+        {{/copyrighttext}}
+        {{^copyrighttext}}
+            &copy; {{currentyear}} {{sitename}}. All Rights Reserved.
+        {{/copyrighttext}}
+        {{#copyrightbottom}}
+            <span class="sc-copyright-bottom">{{{copyrightbottom}}}</span>
+        {{/copyrightbottom}}
+    </div>
 </footer>

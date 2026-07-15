@@ -120,14 +120,60 @@ function xmldb_local_skillconnect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026071200, 'local', 'skillconnect');
     }
 
-    if ($oldversion < 2026071400) {
+    if ($oldversion < 2026071501) {
         $dbman = $DB->get_manager();
         $table = new xmldb_table('local_sc_program_participants');
+
+        // Add year field.
+        if (!$dbman->field_exists($table, 'year')) {
+            $field = new xmldb_field('year', XMLDB_TYPE_INTEGER, 4, null, XMLDB_NOTNULL, null, 0);
+            $dbman->add_field($table, $field);
+        }
+
+        // Add class field.
+        if (!$dbman->field_exists($table, 'class')) {
+            $field = new xmldb_field('class', XMLDB_TYPE_CHAR, 50, null, XMLDB_NOTNULL, null, '');
+            $dbman->add_field($table, $field);
+        }
+
+        // Add custom_class field.
+        if (!$dbman->field_exists($table, 'custom_class')) {
+            $field = new xmldb_field('custom_class', XMLDB_TYPE_CHAR, 50, null, XMLDB_NOTNULL, null, '');
+            $dbman->add_field($table, $field);
+        }
+
+        // Backfill year from timecreated for existing records.
+        $sql = "UPDATE {local_sc_program_participants}
+                SET year = " . (int)date('Y') . "
+                WHERE year = 0 OR year IS NULL";
+        $DB->execute($sql);
+
+        upgrade_plugin_savepoint(true, 2026071501, 'local', 'skillconnect');
+    }
+
+    if ($oldversion < 2026071502) {
+        $dbman = $DB->get_manager();
+        $table = new xmldb_table('local_sc_program_participants');
+
+        // Remove mother_name field if it exists.
+        if ($dbman->field_exists($table, 'mother_name')) {
+            $dbman->drop_field($table, new xmldb_field('mother_name'));
+        }
+
+        upgrade_plugin_savepoint(true, 2026071502, 'local', 'skillconnect');
+    }
+
+    if ($oldversion < 2026071503) {
+        $dbman = $DB->get_manager();
+        $table = new xmldb_table('local_sc_program_participants');
+
+        // Add month field if missing.
         if (!$dbman->field_exists($table, 'month')) {
             $field = new xmldb_field('month', XMLDB_TYPE_INTEGER, 2, null, XMLDB_NOTNULL, null, 0);
             $dbman->add_field($table, $field);
         }
-        upgrade_plugin_savepoint(true, 2026071400, 'local', 'skillconnect');
+
+        upgrade_plugin_savepoint(true, 2026071503, 'local', 'skillconnect');
     }
 
     return true;

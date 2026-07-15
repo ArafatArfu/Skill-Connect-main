@@ -9,7 +9,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_skillconnect';
-$plugin->version   = 2026071200;
+$plugin->version   = 2026071400;
 $plugin->requires  = 2025100600; // Moodle 5.1 or later.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.0.0';
+$plugin->release   = '1.1.0';

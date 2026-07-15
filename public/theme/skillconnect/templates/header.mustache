@@ -1,22 +1,18 @@
 {{!
     Shared responsive SkillConnect header.
 }}
-<header class="sc-header" role="banner">
+<header class="sc-header{{#stickyheader}} is-sticky{{/stickyheader}}" role="banner" style="background-color: {{headerbgcolor}}; color: {{headertextcolor}};">
     <div class="sc-container sc-header-inner">
         <a class="sc-brand" href="{{homeurl}}" aria-label="{{sitename}} home">
-            <img class="sc-brand-logo" src="{{logo}}" alt="">
-            <span class="sc-brand-copy">
-                <strong>{{sitename}}</strong>
-                <small>{{tagline}}</small>
-            </span>
+            <img class="sc-brand-logo" src="{{logo}}" alt="{{sitename}}">
         </a>
 
         <input class="sc-nav-checkbox" type="checkbox" id="sc-nav-checkbox" aria-hidden="true">
-        <label class="sc-nav-toggle" for="sc-nav-checkbox" aria-label="Open navigation">
+        <label class="sc-nav-toggle" for="sc-nav-checkbox" aria-label="Open navigation" aria-controls="sc-navigation">
             <span></span><span></span><span></span>
         </label>
 
-        <nav class="sc-navigation" aria-label="Primary navigation">
+        <nav class="sc-navigation" id="sc-navigation" aria-label="Primary navigation">
             <a class="sc-nav-link {{#homeactive}}is-active{{/homeactive}}" href="{{homeurl}}">Home</a>
             <div class="sc-nav-item sc-has-dropdown">
                 <a class="sc-nav-link {{#programsactive}}is-active{{/programsactive}}" href="{{programpageurl}}" aria-haspopup="true" aria-expanded="false">Programs <span class="sc-caret" aria-hidden="true">&#9662;</span></a>
@@ -29,13 +25,17 @@
             <a class="sc-nav-link {{#coursesactive}}is-active{{/coursesactive}}" href="{{coursesurl}}">Courses</a>
             <a class="sc-nav-link" href="{{volunteerurl}}">Volunteer</a>
             <a class="sc-nav-link" href="{{contacturl}}">Contact</a>
-            {{#isloggedin}}
-                <a class="sc-nav-link sc-mobile-only" href="{{dashboardurl}}">Dashboard</a>
-                {{#isadmin}}<a class="sc-nav-link sc-mobile-only" href="{{adminurl}}">Site administration</a>{{/isadmin}}
-            {{/isloggedin}}
         </nav>
 
         <div class="sc-header-actions">
+            {{#showsearch}}
+                <a class="sc-search-button" href="#" aria-label="Search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"/></svg>
+                </a>
+            {{/showsearch}}
+            {{#headerbtntext}}
+                <a class="sc-header-cta" href="{{headerbtnlink}}" style="background-color: {{menuhovercolor}}; border-color: {{menuhovercolor}};">{{headerbtntext}}</a>
+            {{/headerbtntext}}
             {{#showlogin}}
                 <a class="sc-login-button" href="{{loginurl}}">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0v1h14v-1Z"/></svg>

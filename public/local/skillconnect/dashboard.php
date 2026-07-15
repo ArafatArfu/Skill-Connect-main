@@ -33,23 +33,25 @@ $limitfrom = ($page - 1) * $perpage;
 $rows = $DB->get_records(
     'local_sc_program_participants',
     ['program' => $programkey],
-    'name ASC, id DESC',
+    'id DESC',
     '*',
     $limitfrom,
     $perpage
 );
 
+// Approved column order for CLC Student List.
 $columns = [
+    ['key' => 'sl', 'label' => 'SL No.'],
+    ['key' => 'school', 'label' => get_string('school', 'local_skillconnect')],
     ['key' => 'name', 'label' => get_string('name', 'local_skillconnect')],
     ['key' => 'father_name', 'label' => get_string('fathername', 'local_skillconnect')],
-    ['key' => 'mother_name', 'label' => get_string('mothername', 'local_skillconnect')],
+    ['key' => 'class', 'label' => get_string('class', 'local_skillconnect')],
+    ['key' => 'upazila', 'label' => get_string('upazila', 'local_skillconnect')],
     ['key' => 'district', 'label' => get_string('district', 'local_skillconnect')],
     ['key' => 'division', 'label' => get_string('division', 'local_skillconnect')],
-    ['key' => 'upazila', 'label' => get_string('upazila', 'local_skillconnect')],
-    ['key' => 'mobile', 'label' => get_string('mobile', 'local_skillconnect')],
-    ['key' => 'email', 'label' => get_string('email', 'local_skillconnect')],
+    ['key' => 'mobile', 'label' => "Guardian's Number"],
+    ['key' => 'email', 'label' => 'Email'],
     ['key' => 'gender', 'label' => get_string('gender', 'local_skillconnect')],
-    ['key' => 'school', 'label' => get_string('school', 'local_skillconnect')],
 ];
 
 $head = '';
@@ -67,10 +69,23 @@ if (empty($rows)) {
     );
 } else {
     $body = '';
+    $sl = ($page - 1) * $perpage + 1;
     foreach ($rows as $row) {
         $cells = '';
         foreach ($columns as $col) {
-            $cells .= html_writer::tag('td', s($row->{$col['key']} ?? ''));
+            if ($col['key'] === 'sl') {
+                $value = (string) $sl++;
+            } elseif ($col['key'] === 'class') {
+                $raw = $row->class ?? '';
+                if ($raw === 'other' && !empty($row->custom_class)) {
+                    $value = s($row->custom_class);
+                } else {
+                    $value = s($raw);
+                }
+            } else {
+                $value = s($row->{$col['key']} ?? '');
+            }
+            $cells .= html_writer::tag('td', $value);
         }
 
         $editurl = new moodle_url('/local/skillconnect/edit.php', ['program' => $programkey, 'id' => $row->id]);
@@ -98,6 +113,13 @@ $addbutton = html_writer::link(
     ['class' => 'sc-dash-btn sc-dash-btn-primary']
 );
 
+$uploadurl = new moodle_url('/local/skillconnect/upload.php', ['program' => $programkey]);
+$uploadbutton = html_writer::link(
+    $uploadurl,
+    $OUTPUT->pix_icon('i/upload', '') . ' ' . get_string('uploadstudents', 'local_skillconnect'),
+    ['class' => 'sc-dash-btn sc-dash-btn-ghost']
+);
+
 $settingsurl = new moodle_url('/local/skillconnect/content.php', ['program' => $programkey]);
 $settingsbutton = html_writer::link(
     $settingsurl,
@@ -112,7 +134,7 @@ $topbar = html_writer::div(
             . html_writer::tag('span', $total . ' ' . get_string('records', 'local_skillconnect'), ['class' => 'sc-dash-count']),
         'sc-dash-topbar-info'
     )
-    . html_writer::div($settingsbutton . $addbutton, 'sc-dash-topbar-actions'),
+    . html_writer::div($settingsbutton . $uploadbutton . $addbutton, 'sc-dash-topbar-actions'),
     'sc-dash-topbar'
 );
 

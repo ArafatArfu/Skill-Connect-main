@@ -2,8 +2,7 @@
 // Program page: visitors switch between the CLC, Road Safety and Volunteer
 // programs from the site navigation. Each program reads its own rows from the
 // local_sc_program_participants table and shows them in a responsive, searchable,
-// filterable and paginated (20 per page) data table. Descriptions and the CLC
-// headline statistics are managed from Site administration (settings.php).
+// filterable and paginated (20 per page) data table.
 
 require_once(__DIR__ . '/../../config.php');
 
@@ -53,31 +52,33 @@ $programs = [
     ],
 ];
 
+// Approved column order for CLC Student List.
 $columns = [
-    ['key' => 'name', 'label' => 'Name'],
+    ['key' => 'sl', 'label' => 'SL No.'],
+    ['key' => 'school', 'label' => 'School Name'],
+    ['key' => 'name', 'label' => 'Student Name'],
     ['key' => 'father_name', 'label' => "Father's Name"],
-    ['key' => 'mother_name', 'label' => "Mother's Name"],
+    ['key' => 'class', 'label' => 'Class'],
+    ['key' => 'upazila', 'label' => 'Upazila/Thana'],
     ['key' => 'district', 'label' => 'District'],
     ['key' => 'division', 'label' => 'Division'],
-    ['key' => 'upazila', 'label' => 'Upazila'],
-    ['key' => 'mobile', 'label' => 'Mobile'],
+    ['key' => 'mobile', 'label' => "Guardian's Number"],
     ['key' => 'email', 'label' => 'Email'],
     ['key' => 'gender', 'label' => 'Gender'],
-    ['key' => 'school', 'label' => 'School'],
 ];
 
 $sortoptions = [
-    'name' => 'Name',
+    'name' => 'Student Name',
     'father_name' => "Father's Name",
-    'mother_name' => "Mother's Name",
+    'school' => 'School Name',
+    'class' => 'Class',
+    'upazila' => 'Upazila/Thana',
     'district' => 'District',
     'division' => 'Division',
-    'upazila' => 'Upazila',
-    'school' => 'School',
-    'gender' => 'Gender',
-    'mobile' => 'Mobile',
+    'mobile' => "Guardian's Number",
     'email' => 'Email',
-    'timecreated' => 'Enrolment year',
+    'gender' => 'Gender',
+    'timecreated' => 'Enrolment Date',
 ];
 
 /**
@@ -103,14 +104,16 @@ function local_skillconnect_program_description(string $key, string $default): s
 function local_skillconnect_read_filters(): array {
     return [
         'q' => trim(optional_param('q', '', PARAM_RAW_TRIMMED)),
+        'school' => optional_param('school', '', PARAM_RAW_TRIMMED),
+        'month' => optional_param('month', '', PARAM_RAW_TRIMMED),
+        'year' => optional_param('year', '', PARAM_RAW_TRIMMED),
+        'class' => optional_param('class', '', PARAM_RAW_TRIMMED),
         'division' => optional_param('division', '', PARAM_RAW_TRIMMED),
         'district' => optional_param('district', '', PARAM_RAW_TRIMMED),
         'upazila' => optional_param('upazila', '', PARAM_RAW_TRIMMED),
-        'school' => optional_param('school', '', PARAM_RAW_TRIMMED),
         'gender' => optional_param('gender', '', PARAM_RAW_TRIMMED),
-        'year' => optional_param('year', '', PARAM_RAW_TRIMMED),
-        'sort' => optional_param('sort', 'name', PARAM_ALPHANUMEXT),
-        'dir' => strtoupper(optional_param('dir', 'ASC', PARAM_ALPHA)) === 'DESC' ? 'DESC' : 'ASC',
+        'sort' => optional_param('sort', 'timecreated', PARAM_ALPHANUMEXT),
+        'dir' => strtoupper(optional_param('dir', 'DESC', PARAM_ALPHA)) === 'DESC' ? 'DESC' : 'ASC',
     ];
 }
 
@@ -127,7 +130,7 @@ function local_skillconnect_program_where(string $programkey, array $f, array &$
     $params = ['program' => $programkey];
 
     if ($f['q'] !== '') {
-        $likefields = ['name', 'father_name', 'mother_name', 'district', 'division', 'upazila', 'mobile', 'email', 'gender', 'school'];
+        $likefields = ['name', 'father_name', 'school', 'district', 'division', 'upazila', 'mobile', 'email', 'gender', 'class', 'custom_class'];
         $ors = [];
         foreach ($likefields as $field) {
             $p = 'q_' . $field;
@@ -137,18 +140,12 @@ function local_skillconnect_program_where(string $programkey, array $f, array &$
         $conditions[] = '(' . implode(' OR ', $ors) . ')';
     }
 
-    foreach (['division', 'district', 'upazila', 'school', 'gender'] as $field) {
+    $simplefilters = ['school', 'class', 'division', 'district', 'upazila', 'gender', 'month', 'year'];
+    foreach ($simplefilters as $field) {
         if ($f[$field] !== '' && $f[$field] !== null) {
             $conditions[] = "$field = :$field";
             $params[$field] = $f[$field];
         }
-    }
-
-    if ($f['year'] !== '') {
-        $year = (int) $f['year'];
-        $conditions[] = 'timecreated >= :ystart AND timecreated < :yend';
-        $params['ystart'] = mktime(0, 0, 0, 1, 1, $year);
-        $params['yend'] = mktime(0, 0, 0, 1, 1, $year + 1);
     }
 
     return implode(' AND ', $conditions);
@@ -173,6 +170,23 @@ function local_skillconnect_distinct(string $field, string $programkey): array {
 }
 
 /**
+ * Return distinct months for a program.
+ *
+ * @param string $programkey
+ * @return array
+ */
+function local_skillconnect_distinct_months(string $programkey): array {
+    global $DB;
+    $sql = "SELECT DISTINCT month FROM {local_sc_program_participants} WHERE program = :program AND month > 0 ORDER BY month ASC";
+    $rs = $DB->get_records_sql($sql, ['program' => $programkey]);
+    $out = [];
+    foreach ($rs as $row) {
+        $out[] = (string)$row->month;
+    }
+    return $out;
+}
+
+/**
  * Return distinct enrolment years for a program (newest first).
  *
  * @param string $programkey
@@ -180,12 +194,12 @@ function local_skillconnect_distinct(string $field, string $programkey): array {
  */
 function local_skillconnect_distinct_years(string $programkey): array {
     global $DB;
-    $sql = "SELECT DISTINCT FROM_UNIXTIME(timecreated, '%Y') AS yr FROM {local_sc_program_participants} WHERE program = :program ORDER BY yr DESC";
+    $sql = "SELECT DISTINCT year FROM {local_sc_program_participants} WHERE program = :program AND year > 0 ORDER BY year DESC";
     $rs = $DB->get_records_sql($sql, ['program' => $programkey]);
     $out = [];
     foreach ($rs as $row) {
-        if (!empty($row->yr)) {
-            $out[] = $row->yr;
+        if (!empty($row->year)) {
+            $out[] = (string)$row->year;
         }
     }
     return $out;
@@ -197,7 +211,7 @@ function local_skillconnect_distinct_years(string $programkey): array {
  * @param array $rows
  * @return string
  */
-function local_skillconnect_render_table(array $rows): string {
+function local_skillconnect_render_table(array $rows, int $start = 1): string {
     global $columns;
 
     $head = '';
@@ -210,11 +224,18 @@ function local_skillconnect_render_table(array $rows): string {
         $body = '<tr class="sc-empty-row"><td colspan="' . $colcount . '">No records match your search or filters.</td></tr>';
     } else {
         $body = '';
+        $sl = $start;
         foreach ($rows as $row) {
             $body .= '<tr>';
             foreach ($columns as $col) {
-                $value = $row->{$col['key']} ?? '';
-                $body .= '<td>' . s($value) . '</td>';
+                if ($col['key'] === 'sl') {
+                    $value = $sl++;
+                } elseif ($col['key'] === 'class' && !empty($row->{$col['key']})) {
+                    $value = $row->{$col['key']} === 'other' && !empty($row->custom_class) ? s($row->custom_class) : s($row->{$col['key']});
+                } else {
+                    $value = s($row->{$col['key']} ?? '');
+                }
+                $body .= '<td>' . $value . '</td>';
             }
             $body .= '</tr>';
         }
@@ -279,13 +300,13 @@ function local_skillconnect_render_pagination(int $page, int $totalpages, int $t
  * @return array
  */
 function local_skillconnect_build_program_data(string $programkey, array $f, int $page): array {
-    global $DB, $sortoptions;
+    global $DB, $columns, $sortoptions;
 
     $params = [];
     $where = local_skillconnect_program_where($programkey, $f, $params);
     $total = $DB->count_records_select('local_sc_program_participants', $where, $params);
 
-    $sortfield = array_key_exists($f['sort'], $sortoptions) ? $f['sort'] : 'name';
+    $sortfield = array_key_exists($f['sort'], $sortoptions) ? $f['sort'] : 'timecreated';
     $sort = $sortfield . ' ' . $f['dir'];
 
     $totalpages = max(1, (int) ceil($total / PROGRAM_PER_PAGE));
@@ -300,7 +321,7 @@ function local_skillconnect_build_program_data(string $programkey, array $f, int
     $rows = $DB->get_records_select('local_sc_program_participants', $where, $params, $sort, '*', $limitfrom, PROGRAM_PER_PAGE);
 
     return [
-        'table' => local_skillconnect_render_table($rows),
+        'table' => local_skillconnect_render_table($rows, $limitfrom + 1),
         'pagination' => local_skillconnect_render_pagination($page, $totalpages, $total),
         'total' => $total,
         'page' => $page,
@@ -325,6 +346,31 @@ function local_skillconnect_option_list(array $values, string $current): array {
         ];
     }
     return $out;
+}
+
+/**
+ * Build month options for filters.
+ *
+ * @return array
+ */
+function local_skillconnect_month_options(): array {
+    $months = [];
+    for ($m = 1; $m <= 12; $m++) {
+        $months[$m] = userdate(gmmktime(0, 0, 0, $m, 1, 2000), '%B');
+    }
+    return $months;
+}
+
+/**
+ * Build year options for filters.
+ *
+ * @param string $programkey
+ * @return array
+ */
+function local_skillconnect_year_options(string $programkey): array {
+    $years = local_skillconnect_distinct_years($programkey);
+    sort($years);
+    return array_reverse($years);
 }
 
 $f = local_skillconnect_read_filters();
@@ -366,23 +412,37 @@ foreach ($sortoptions as $key => $label) {
     $sortlist[] = ['value' => $key, 'label' => $label, 'selected' => $key === $f['sort']];
 }
 
+$monthoptions = local_skillconnect_month_options();
+$yearoptions = local_skillconnect_year_options($programkey);
+
 $initial = local_skillconnect_build_program_data($programkey, $f, $page);
+
+$monthslist = [];
+foreach ($monthoptions as $value => $label) {
+    $monthslist[] = [
+        'value' => (string) $value,
+        'label' => $label,
+        'selected' => (string) $value === (string) $f['month'],
+    ];
+}
 
 $templatecontext = [
     'ajaxurl' => (new moodle_url('/local/skillconnect/program.php'))->out(false),
     'programkey' => $programkey,
-    'heading' => $programs[$programkey]['name'],
+    'heading' => get_string('clcstudentlist', 'local_skillconnect') . ' (' . $initial['total'] . ' Participants Enrolled)',
     'description' => $description,
     'programlabel' => $programs[$programkey]['short'],
     'hasstats' => !empty($stats),
     'stats' => $stats,
     'total' => $initial['total'],
+    'schools' => local_skillconnect_option_list(local_skillconnect_distinct('school', $programkey), $f['school']),
+    'months' => $monthslist,
+    'years' => local_skillconnect_option_list($yearoptions, $f['year']),
+    'classes' => local_skillconnect_option_list(local_skillconnect_distinct('class', $programkey), $f['class']),
     'divisions' => local_skillconnect_option_list(local_skillconnect_distinct('division', $programkey), $f['division']),
     'districts' => local_skillconnect_option_list(local_skillconnect_distinct('district', $programkey), $f['district']),
     'upazilas' => local_skillconnect_option_list(local_skillconnect_distinct('upazila', $programkey), $f['upazila']),
-    'schools' => local_skillconnect_option_list(local_skillconnect_distinct('school', $programkey), $f['school']),
-    'genders' => local_skillconnect_option_list(['Male', 'Female'], $f['gender']),
-    'years' => local_skillconnect_option_list(local_skillconnect_distinct_years($programkey), $f['year']),
+    'genders' => local_skillconnect_option_list(['Male', 'Female', 'Other'], $f['gender']),
     'sorts' => $sortlist,
     'q' => $f['q'],
     'dirasc' => $f['dir'] !== 'DESC',

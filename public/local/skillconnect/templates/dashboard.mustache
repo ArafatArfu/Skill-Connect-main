@@ -19,6 +19,22 @@
             </ul>
         </nav>
 
+        {{#hasmodules}}
+        <nav class="sc-dash-nav">
+            <span class="sc-dash-nav-label">Management</span>
+            <ul>
+                {{#modules}}
+                    <li>
+                        <a href="{{url}}" class="sc-dash-link {{#active}}is-active{{/active}}">
+                            <span class="sc-dash-ic sc-dash-ic-mgmt" aria-hidden="true"></span>
+                            <span class="sc-dash-link-text">{{name}}</span>
+                        </a>
+                    </li>
+                {{/modules}}
+            </ul>
+        </nav>
+        {{/hasmodules}}
+
         <div class="sc-dash-sidefoot">
             <a class="sc-dash-footlink" href="{{liveurl}}" target="_blank" rel="noopener">
                 {{#str}}viewlive, local_skillconnect{{/str}} <span aria-hidden="true">&nearr;</span>
