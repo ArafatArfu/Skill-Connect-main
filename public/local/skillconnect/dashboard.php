@@ -138,7 +138,7 @@ $topbar = html_writer::div(
     'sc-dash-topbar'
 );
 
-$content = html_writer::div($topbar . $table . local_skillconnect_dashboard_pagination($programkey, $page, $totalpages, $total), 'sc-dash-card');
+$content = html_writer::div($topbar . html_writer::div($table, 'sc-dash-table-wrap') . local_skillconnect_dashboard_pagination($programkey, $page, $totalpages, $total), 'sc-dash-card');
 
 echo $OUTPUT->header();
 echo local_skillconnect_dashboard_shell($content, $programkey);

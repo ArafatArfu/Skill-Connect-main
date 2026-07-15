@@ -1,4 +1,10 @@
 <div class="sc-dash">
+    <button class="sc-dash-toggle" id="sc-dash-toggle" type="button" aria-label="Toggle sidebar" aria-expanded="true">
+        <span class="sc-dash-toggle-bar"></span>
+        <span class="sc-dash-toggle-bar"></span>
+        <span class="sc-dash-toggle-bar"></span>
+    </button>
+
     <aside class="sc-dash-sidebar" role="navigation" aria-label="Program management">
         <div class="sc-dash-brand">
             <span class="sc-dash-logo">{{sitename}}</span>
@@ -46,4 +52,25 @@
     <main class="sc-dash-main">
         {{{content}}}
     </main>
+
+    <script>
+    (function () {
+        var dash = document.querySelector('.sc-dash');
+        var btn = document.getElementById('sc-dash-toggle');
+        if (!dash || !btn) { return; }
+        var KEY = 'scDashSidebarCollapsed';
+        function apply(collapsed) {
+            dash.classList.toggle('is-collapsed', collapsed);
+            btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+        }
+        try {
+            if (localStorage.getItem(KEY) === '1') { apply(true); }
+        } catch (e) {}
+        btn.addEventListener('click', function () {
+            var collapsed = !dash.classList.contains('is-collapsed');
+            apply(collapsed);
+            try { localStorage.setItem(KEY, collapsed ? '1' : '0'); } catch (e) {}
+        });
+    })();
+    </script>
 </div>

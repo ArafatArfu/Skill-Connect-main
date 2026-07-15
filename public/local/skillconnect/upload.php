@@ -23,6 +23,8 @@ local_skillconnect_dashboard_page_setup($programkey, $program['fullname'] . ' ' 
 global $DB, $OUTPUT;
 
 $mode = optional_param('mode', 'upload', PARAM_ALPHA);
+$importresult = null;
+$validrecords = [];
 $context = [
     'programkey' => $programkey,
     'programname' => $program['fullname'],
@@ -47,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey() && isset($_FILES[
 }
 
 $context['mode'] = $mode;
+$context['hasresult'] = !empty($importresult);
+$context['hasuploadedrecords'] = !empty($validrecords);
 $context['downloadurl'] = (new moodle_url('/local/skillconnect/upload.php', [
     'program' => $programkey,
     'mode' => 'template',
